@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo do Momento de Inércia - Cubo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        h1, h2 {
+            text-align: center;
+        }
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .explanation {
+            max-width: 600px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Momento de Inércia - Cubo</h1>
+    <div class="content-container">
+        <div class="explanation">
+            <h2>O que é o Momento de Inércia de um Cubo?</h2>
+            <p>O momento de inércia de um cubo é uma medida de como a massa do cubo está distribuída em relação ao seu eixo de rotação. Para um cubo homogêneo com aresta de comprimento <em>a</em> e massa <em>m</em>, o momento de inércia em relação a um eixo que passa por seu centro é dado por:</p>
+            <p><strong>I = (1/6) * m * a²</strong></p>
+            <p>Esse valor representa a resistência do cubo a mudanças no seu movimento de rotação em torno do eixo especificado.</p>
+        </div>
+        <form id="calculationForm" action="/calculate" method="post">
+            <label for="mass">Massa (m):</label>
+            <input type="number" id="mass" name="mass" required>
+
+            <label for="side">Comprimento da aresta (a):</label>
+            <input type="number" id="side" name="side" required>
+
+            <button type="submit">Calcular Momento de Inércia</button>
+        </form>
+        <div id="resultSection" style="display:none;">
+            <h2>Resultado dos Cálculos</h2>
+            <div id="equations"></div>
+            <div id="finalResult"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('calculationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const mass = parseFloat(document.getElementById('mass').value);
+            const side = parseFloat(document.getElementById('side').value);
+
+            const momentOfInertia = (1/6) * mass * Math.pow(side, 2);
+
+            document.getElementById('equations').innerHTML = `
+                <p>Fórmula utilizada:</p>
+                <p>I = (1/6) * m * a²</p>
+                <p>Substituindo os valores:</p>
+                <p>I = (1/6) * ${mass} * ${side}²</p>
+            `;
+
+            document.getElementById('finalResult').innerHTML = `
+                <p>Momento de Inércia (I): ${momentOfInertia.toFixed(2)} kg·m²</p>
+            `;
+
+            document.getElementById('resultSection').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

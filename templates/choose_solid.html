@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolha o Sólido</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* CSS para centralizar os botões */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .button-container a {
+            display: block;
+            width: 200px;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .button-container a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <h1>Escolha o Sólido</h1>
+        <a href="{{ url_for('paralelepipedo') }}">Paralelepipedo</a>
+        <a href="{{ url_for('cubo') }}">Cubo</a>
+        <a href="{{ url_for('circulo') }}">Círculo</a>
+        <a href="{{ url_for('circulo_vazado') }}">Círculo Vazado</a>
+    </div>
+</body>
+</html>

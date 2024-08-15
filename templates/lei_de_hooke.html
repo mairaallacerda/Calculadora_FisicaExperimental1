@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lei de Hooke</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora - Lei de Hooke</h1>
+        <form id="hookeForm">
+            <label for="k">Constante Elástica (N/m):</label>
+            <input type="number" id="k" name="k" step="0.01" required>
+            <label for="delta_x">Deformação (Δx) em cm:</label>
+            <input type="number" id="delta_x" name="delta_x" step="0.01" required>
+            <label for="uncertainty_k">Incerteza da Constante Elástica (N/m):</label>
+            <input type="number" id="uncertainty_k" name="uncertainty_k" step="0.01" required>
+            <label for="uncertainty_delta_x">Incerteza da Deformação (cm):</label>
+            <input type="number" id="uncertainty_delta_x" name="uncertainty_delta_x" step="0.01" required>
+            <button type="submit">Calcular Força Elástica</button>
+        </form>
+        <div id="resultHooke" style="display:none;">
+            <h2>Resultado dos Cálculos</h2>
+            <div id="equationsHooke"></div>
+            <div id="finalResultHooke"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('hookeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const k = parseFloat(document.getElementById('k').value);
+            const delta_x_cm = parseFloat(document.getElementById('delta_x').value);
+            const uncertainty_k = parseFloat(document.getElementById('uncertainty_k').value);
+            const uncertainty_delta_x_cm = parseFloat(document.getElementById('uncertainty_delta_x').value);
+
+            const delta_x_m = delta_x_cm / 100;
+            const uncertainty_delta_x_m = uncertainty_delta_x_cm / 100;
+
+            const force = k * delta_x_m;
+            const uncertainty = Math.sqrt(
+                Math.pow(delta_x_m * uncertainty_k, 2) + 
+                Math.pow(k * uncertainty_delta_x_m, 2)
+            );
+
+            document.getElementById('equationsHooke').innerHTML = `
+                <p><b>Equação:</b> F = k * Δx</p>
+                <p><b>Conversão:</b> Δx = ${delta_x_cm} cm = ${delta_x_m.toFixed(4)} m</p>
+                <p><b>Cálculo:</b> F = ${k} * ${delta_x_m.toFixed(4)} = ${force.toFixed(4)} N</p>
+                <p><b>Incerteza:</b> ΔF = √[(Δx * Δk)² + (k * ΔΔx)²] = ${uncertainty.toFixed(4)} N</p>
+            `;
+
+            document.getElementById('finalResultHooke').innerHTML = `
+                <p><b>Força Elástica:</b> ${force.toFixed(4)} ± ${uncertainty.toFixed(4)} N</p>
+            `;
+
+            document.getElementById('resultHooke').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

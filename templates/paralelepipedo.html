@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo do Momento de Inércia - Paralelepípedo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        h1, h2 {
+            text-align: center;
+        }
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .explanation {
+            max-width: 600px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Momento de Inércia - Paralelepípedo</h1>
+    <div class="content-container">
+        <div class="explanation">
+            <h2>O que é o Momento de Inércia de um Paralelepípedo?</h2>
+            <p>O momento de inércia de um paralelepípedo em relação a um eixo que passa pelo seu centro de massa é dado pela fórmula:</p>
+            <p><strong>I = (1/12) * m * (a² + b²)</strong></p>
+            <p>Onde <em>m</em> é a massa do paralelepípedo, <em>a</em> é o comprimento e <em>b</em> é a altura do paralelepípedo.</p>
+            <p>Essa fórmula calcula a resistência do paralelepípedo à rotação em torno de um eixo que passa pelo seu centro de massa.</p>
+        </div>
+        <form id="calculationForm" action="/calculate" method="post">
+            <label for="mass">Massa (m):</label>
+            <input type="number" id="mass" name="mass" required>
+
+            <label for="length">Comprimento (a):</label>
+            <input type="number" id="length" name="length" required>
+
+            <label for="height">Altura (b):</label>
+            <input type="number" id="height" name="height" required>
+
+            <button type="submit">Calcular Momento de Inércia</button>
+        </form>
+        <div id="resultSection" style="display:none;">
+            <h2>Resultado dos Cálculos</h2>
+            <div id="equations"></div>
+            <div id="finalResult"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('calculationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const mass = parseFloat(document.getElementById('mass').value);
+            const length = parseFloat(document.getElementById('length').value);
+            const height = parseFloat(document.getElementById('height').value);
+
+            const momentOfInertia = (1/12) * mass * (Math.pow(length, 2) + Math.pow(height, 2));
+
+            document.getElementById('equations').innerHTML = `
+                <p>Fórmula utilizada:</p>
+                <p>I = (1/12) * m * (a² + b²)</p>
+                <p>Substituindo os valores:</p>
+                <p>I = (1/12) * ${mass} * (${length}² + ${height}²)</p>
+            `;
+
+            document.getElementById('finalResult').innerHTML = `
+                <p>Momento de Inércia (I): ${momentOfInertia.toFixed(2)} kg·m²</p>
+            `;
+
+            document.getElementById('resultSection').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

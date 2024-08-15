@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Física</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("{{ url_for('static', filename='images/fundo.webp') }}"); /* Substitua pelo caminho da sua imagem de fundo */
+            background-size: cover;
+            color: white;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .choice-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin: auto;
+        }
+        h1 {
+            margin-bottom: 40px;
+        }
+        .button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bem-vindo à Calculadora Física</h1>
+    <div class="choice-container">
+        <h2>Escolha o que deseja calcular:</h2>
+        <a href="{{ url_for('choose_solid') }}" class="button">Momento de Inércia</a>
+        <a href="{{ url_for('lei_de_hooke') }}" class="button">Lei de Hooke</a>
+        
+    </div>
+</body>
+</html>
