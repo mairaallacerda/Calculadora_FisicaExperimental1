@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/maira/trabalho_final_MOFT/venv"
+VIRTUAL_ENV="/home/maira/Calculadora_FisicaExperimental1/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
