@@ -5,46 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cálculo do Momento de Inércia - Círculo</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
         h1, h2 {
             text-align: center;
         }
         .content-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
             margin-top: 20px;
+            max-width: 800px;
+            margin: auto;
         }
         .explanation {
-            max-width: 600px;
-            text-align: center;
+            text-align: left;
             margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Momento de Inércia - Círculo</h1>
     <div class="content-container">
-        <div class="explanation">
-            <h2>O que é o Momento de Inércia de um Círculo?</h2>
-            <p>O momento de inércia de um círculo em relação a um eixo que passa pelo seu centro e é perpendicular ao plano do círculo é dado pela fórmula:</p>
-            <p><strong>I = (1/2) * m * r²</strong></p>
-            <p>Onde <em>m</em> é a massa do círculo e <em>r</em> é o raio. Esse valor representa a resistência do círculo à rotação em torno do seu eixo.</p>
-        </div>
-        <form id="calculationForm" action="/calculate" method="post">
-            <label for="mass">Massa (m):</label>
-            <input type="number" id="mass" name="mass" required>
+        <h1>Momento de Inércia - Círculo (Disco)</h1>
+        <p>
+            O momento de inércia <span class="math">\( I \)</span> de um disco sólido em relação a um eixo perpendicular ao seu plano e passando pelo centro pode ser calculado usando a fórmula:
+        </p>
+        <p>
+            <span class="math">\( I = \frac{1}{2} M R^2 \)</span>
+        </p>
+        <p>onde:</p>
+        <ul>
+            <li><span class="math">\( M \)</span> é a massa do disco.</li>
+            <li><span class="math">\( R \)</span> é o raio do disco.</li>
+        </ul>
+        <p>
+            <strong>Derivação Intuitiva:</strong> O momento de inércia é uma medida da resistência de um corpo à mudança em seu estado de rotação em torno de um eixo. Para um disco, consideramos a distribuição de massa em relação ao eixo de rotação. A fórmula <span class="math">\( \frac{1}{2} M R^2 \)</span> vem da integração da contribuição de cada elemento infinitesimal de massa ao longo do disco.
+        </p>
+        <h3>Incerteza do Disco</h3>
+        <p>
+            Para o disco, a fórmula do momento de inércia é <span class="math">\( I = \frac{1}{2} M R^2 \)</span>. Suponha que a incerteza na massa seja <span class="math">\( \Delta M \)</span> e na medida do raio seja <span class="math">\( \Delta R \)</span>. As incertezas nas medições se propagam de acordo com a fórmula geral para propagação de erros:
+        </p>
+        <p>
+            <span class="math">\( \Delta I = \sqrt{\left( \frac{\partial I}{\partial M} \Delta M \right)^2 + \left( \frac{\partial I}{\partial R} \Delta R \right)^2 } \)</span>
+        </p>
+        <p>Onde:</p>
+        <ul>
+            <li><span class="math">\( \frac{\partial I}{\partial M} = \frac{1}{2} R^2 \)</span></li>
+            <li><span class="math">\( \frac{\partial I}{\partial R} = M R \)</span></li>
+        </ul>
+        <p>
+            Portanto:
+        </p>
+        <p>
+            <span class="math">\( \Delta I = \sqrt{\left( \frac{1}{2} R^2 \Delta M \right)^2 + \left( M R \Delta R \right)^2 } \)</span>
+        </p>
+        <h2>Resumo</h2>
+        <ul>
+            <li><strong>Círculo (Disco):</strong> <span class="math">\( I = \frac{1}{2} M R^2 \)</span></li>
+        </ul>
+        <p>
+            A incerteza no momento de inércia é calculada levando em consideração as incertezas nas medições da massa e do raio, utilizando a fórmula da propagação de erros.
+        </p>
+    </div>
 
-            <label for="radius">Raio (r):</label>
-            <input type="number" id="radius" name="radius" required>
+    <form id="calculationForm" action="/calculate" method="post">
+        <label for="mass">Massa (m):</label>
+        <input type="number" id="mass" name="mass" required>
 
-            <button type="submit">Calcular Momento de Inércia</button>
-        </form>
-        <div id="resultSection" style="display:none;">
-            <h2>Resultado dos Cálculos</h2>
-            <div id="equations"></div>
-            <div id="finalResult"></div>
-        </div>
+        <label for="radius">Raio (r):</label>
+        <input type="number" id="radius" name="radius" required>
+
+        <button type="submit">Calcular Momento de Inércia</button>
+    </form>
+
+    <div id="resultSection" style="display:none;">
+        <h2>Resultado dos Cálculos</h2>
+        <div id="equations"></div>
+        <div id="finalResult"></div>
     </div>
 
     <script>

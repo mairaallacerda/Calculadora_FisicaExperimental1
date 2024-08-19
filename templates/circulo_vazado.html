@@ -5,31 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cálculo do Momento de Inércia - Círculo Vazado</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
         h1, h2 {
             text-align: center;
         }
         .content-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
             margin-top: 20px;
+            max-width: 800px;
+            margin: auto;
         }
         .explanation {
-            max-width: 600px;
-            text-align: center;
+            text-align: left;
             margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Momento de Inércia - Círculo Vazado</h1>
+    <h1>Momento de Inércia - Círculo Vazado (Anel)</h1>
     <div class="content-container">
         <div class="explanation">
-            <h2>O que é o Momento de Inércia de um Círculo Vazado?</h2>
-            <p>O momento de inércia de um círculo vazado (anel) em relação a um eixo que passa pelo seu centro e é perpendicular ao plano do círculo é dado pela fórmula:</p>
-            <p><strong>I = (1/2) * m * (r₁² + r₂²)</strong></p>
-            <p>Onde <em>m</em> é a massa do anel, <em>r₁</em> é o raio interno e <em>r₂</em> é o raio externo.</p>
+            <p>
+                Para um círculo vazado (ou anel), o momento de inércia também é calculado para um eixo perpendicular ao plano e passando pelo centro. Se considerarmos um anel de massa <span class="math">\( M \)</span> e raio <span class="math">\( R \)</span>, sua fórmula é:
+            </p>
+            <p>
+                <span class="math">\( I = M R^2 \)</span>
+            </p>
+            <p>
+                <strong>Derivação Intuitiva:</strong> No caso do anel, toda a massa está localizada a uma distância constante <span class="math">\( R \)</span> do eixo de rotação. Portanto, o momento de inércia é simplesmente a massa vezes o quadrado da distância ao eixo, que é <span class="math">\( R^2 \)</span>.
+            </p>
+            <h2>Cálculo da Incerteza Associada</h2>
+            <p>
+                Para calcular a incerteza associada ao momento de inércia, precisamos considerar as incertezas nas medições das quantidades que entram nas fórmulas (massa e raio).
+            </p>
+
+            <h3>Incerteza do Anel</h3>
+            <p>
+                Para o anel, a fórmula do momento de inércia é <span class="math">\( I = M R^2 \)</span>. Usando a mesma abordagem, temos:
+            </p>
+            <p>
+                <span class="math">\( \Delta I = \sqrt{\left( \frac{\partial I}{\partial M} \Delta M \right)^2 + \left( \frac{\partial I}{\partial R} \Delta R \right)^2 } \)</span>
+            </p>
+            <p>Onde:</p>
+            <ul>
+                <li><span class="math">\( \frac{\partial I}{\partial M} = R^2 \)</span></li>
+                <li><span class="math">\( \frac{\partial I}{\partial R} = 2 M R \)</span></li>
+            </ul>
+            <p>
+                Portanto:
+            </p>
+            <p>
+                <span class="math">\( \Delta I = \sqrt{\left( R^2 \Delta M \right)^2 + \left( 2 M R \Delta R \right)^2 } \)</span>
+            </p>
         </div>
         <form id="calculationForm" action="/calculate" method="post">
             <label for="mass">Massa (m):</label>
