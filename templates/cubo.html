@@ -3,70 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cálculo do Momento de Inércia - Cubo</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Momento de Inércia - Cubo</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        h1, h2 {
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        h1 {
             text-align: center;
         }
-        .content-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-        .explanation {
+        .container {
             max-width: 600px;
-            text-align: center;
-            margin-bottom: 20px;
+            margin: auto;
+        }
+        #resultSection {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <h1>Momento de Inércia - Cubo</h1>
-    <div class="content-container">
-        <div class="explanation">
-            <h2>O que é o Momento de Inércia de um Cubo?</h2>
-            <p>O momento de inércia de um cubo é uma medida de como a massa do cubo está distribuída em relação ao seu eixo de rotação. Para um cubo homogêneo com aresta de comprimento <em>a</em> e massa <em>m</em>, o momento de inércia em relação a um eixo que passa por seu centro é dado por:</p>
-            <p><strong>I = (1/6) * m * a²</strong></p>
-            <p>Esse valor representa a resistência do cubo a mudanças no seu movimento de rotação em torno do eixo especificado.</p>
+    <div class="container">
+        <h1>Momento de Inércia - Cubo</h1>
+        <p>
+            O momento de inércia é uma medida da distribuição da massa de um objeto em relação a um eixo de rotação. Para um cubo, que é um caso especial de paralelepípedo onde todas as arestas possuem o mesmo comprimento, o momento de inércia pode ser calculado em relação aos três eixos principais que passam pelo seu centro de massa.
+        </p>
+        <p>
+            Considerando um cubo com aresta \( a \) e massa \( M \), o momento de inércia em relação aos eixos \( x \), \( y \) e \( z \) pode ser calculado pelas seguintes fórmulas:
+        </p>
+        <div id="equations">
+            <p>Fórmulas utilizadas:</p>
+            <p>\( I_x = \frac{1}{12} M (a^2 + a^2) = \frac{1}{6} M a^2 \)</p>
+            <p>\( I_y = \frac{1}{12} M (a^2 + a^2) = \frac{1}{6} M a^2 \)</p>
+            <p>\( I_z = \frac{1}{12} M (a^2 + a^2) = \frac{1}{6} M a^2 \)</p>
         </div>
-        <form id="calculationForm" action="/calculate" method="post">
-            <label for="mass">Massa (m):</label>
-            <input type="number" id="mass" name="mass" required>
-
-            <label for="side">Comprimento da aresta (a):</label>
-            <input type="number" id="side" name="side" required>
-
-            <button type="submit">Calcular Momento de Inércia</button>
+        <p>
+            Para calcular a incerteza associada ao momento de inércia, utilizamos a fórmula de propagação de incertezas, considerando as incertezas na medida da aresta \( \Delta a \) e na massa \( \Delta M \).
+        </p>
+        <form id="inertiaForm">
+            <label for="mass">Massa (kg):</label>
+            <input type="number" id="mass" required><br>
+            <label for="edgeLength">Comprimento da aresta \( a \) (m):</label>
+            <input type="number" id="edgeLength" required><br>
+            <label for="deltaMass">Incerteza na massa \( \Delta M \) (kg):</label>
+            <input type="number" id="deltaMass" required><br>
+            <label for="deltaEdgeLength">Incerteza no comprimento da aresta \( \Delta a \) (m):</label>
+            <input type="number" id="deltaEdgeLength" required><br><br>
+            <button type="submit">Calcular</button>
         </form>
-        <div id="resultSection" style="display:none;">
-            <h2>Resultado dos Cálculos</h2>
-            <div id="equations"></div>
+        <div id="resultSection">
+            <h2>Resultados</h2>
             <div id="finalResult"></div>
         </div>
     </div>
-
     <script>
-        document.getElementById('calculationForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+        document.getElementById('inertiaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
             const mass = parseFloat(document.getElementById('mass').value);
-            const side = parseFloat(document.getElementById('side').value);
+            const a = parseFloat(document.getElementById('edgeLength').value);
+            const deltaM = parseFloat(document.getElementById('deltaMass').value);
+            const deltaA = parseFloat(document.getElementById('deltaEdgeLength').value);
+            
+            const I = (1/6) * mass * Math.pow(a, 2);
 
-            const momentOfInertia = (1/6) * mass * Math.pow(side, 2);
+            const dIda = (1/3) * mass * a;
+            const dIdM = (1/6) * Math.pow(a, 2);
+            
+            const deltaI = Math.sqrt(Math.pow(dIda * deltaA, 2) + Math.pow(dIdM * deltaM, 2));
 
             document.getElementById('equations').innerHTML = `
-                <p>Fórmula utilizada:</p>
-                <p>I = (1/6) * m * a²</p>
+                <p>Fórmulas utilizadas:</p>
+                <p>I_x = \\( \\frac{1}{12} M (a^2 + a^2) \\) = \\( \\frac{1}{6} M a^2 \\)</p>
                 <p>Substituindo os valores:</p>
-                <p>I = (1/6) * ${mass} * ${side}²</p>
+                <p>I_x = I_y = I_z = (1/6) * ${mass.toFixed(2)} * (${a.toFixed(2)}^2) = ${I.toFixed(2)} kg·m²</p>
             `;
-
+            
             document.getElementById('finalResult').innerHTML = `
-                <p>Momento de Inércia (I): ${momentOfInertia.toFixed(2)} kg·m²</p>
+                <p><strong>Momento de Inércia (I):</strong> ${I.toFixed(2)} ± ${deltaI.toFixed(2)} kg·m²</p>
             `;
 
             document.getElementById('resultSection').style.display = 'block';
+            MathJax.typeset();
         });
     </script>
 </body>
