@@ -60,6 +60,16 @@
             \]</p>
         </div>
         <form id="calculationForm" action="/calculate" method="post">
+            <label for="measurementTool">Ferramenta de Medição:</label>
+            <select id="measurementTool" name="measurementTool" required>
+                <option value="regua">Régua</option>
+                <option value="paquimetro">Paquímetro</option>
+                <option value="micrometro">Micrômetro</option>
+            </select>
+
+            <label for="toolError">Erro da Ferramenta (em mm):</label>
+            <input type="number" id="toolError" name="toolError" step="any" required>
+
             <label for="mass">Massa (M):</label>
             <input type="number" id="mass" name="mass" step="any" required>
 
@@ -96,7 +106,7 @@
     <script>
         document.getElementById('calculationForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            
+
             const mass = parseFloat(document.getElementById('mass').value);
             const length = parseFloat(document.getElementById('length').value);
             const width = parseFloat(document.getElementById('width').value);
@@ -129,18 +139,14 @@
             );
 
             document.getElementById('equations').innerHTML = `
-                <p>Fórmulas utilizadas:</p>
-                <p>I_x = \\( \\frac{1}{12} M (b^2 + c^2) \\)</p>
-                <p>I_y = \\( \\frac{1}{12} M (a^2 + c^2) \\)</p>
-                <p>I_z = \\( \\frac{1}{12} M (a^2 + b^2) \\)</p>
-                <p>Substituindo os valores:</p>
+                <p>Ferramenta de Medição: ${tool}</p>
+                <p>Erro da Ferramenta: ±${error} mm</p>
                 <p>I_x = (1/12) * ${mass.toFixed(2)} * (${width.toFixed(2)}^2 + ${height.toFixed(2)}^2) = ${I_x.toFixed(2)} kg·m²</p>
                 <p>I_y = (1/12) * ${mass.toFixed(2)} * (${length.toFixed(2)}^2 + ${height.toFixed(2)}^2) = ${I_y.toFixed(2)} kg·m²</p>
                 <p>I_z = (1/12) * ${mass.toFixed(2)} * (${length.toFixed(2)}^2 + ${width.toFixed(2)}^2) = ${I_z.toFixed(2)} kg·m²</p>
             `;
             
             document.getElementById('finalResult').innerHTML = `
-                <p>Resultado Final:</p>
                 <p><strong>Momento de Inércia ao longo do eixo x (I_x):</strong> ${I_x.toFixed(2)} ± ${delta_I_x.toFixed(2)} kg·m²</p>
                 <p><strong>Momento de Inércia ao longo do eixo y (I_y):</strong> ${I_y.toFixed(2)} ± ${delta_I_y.toFixed(2)} kg·m²</p>
                 <p><strong>Momento de Inércia ao longo do eixo z (I_z):</strong> ${I_z.toFixed(2)} ± ${delta_I_z.toFixed(2)} kg·m²</p>
