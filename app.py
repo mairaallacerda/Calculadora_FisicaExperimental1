@@ -34,5 +34,14 @@ def circulo_vazado():
 def lei_de_hooke():
     return render_template('lei_de_hooke.html')
 
+@app.route ('/centro_de_massa')
+def centro_de_massa():
+    return render_template('centro_de_massa.html')
+
+@app.route('/decomposicao_de_forcas')
+def decomposicao_de_forcas():
+    return render_template('decomposicao_de_forcas.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)

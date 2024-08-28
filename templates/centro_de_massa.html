@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <title>Calculadora - Centro de Massa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+        h1, h2, h3 {
+            text-align: center;
+            color: #333;
+        }
+        p, ul, label {
+            font-size: 16px;
+            color: #555;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+        label, input {
+            margin-bottom: 10px;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #resultHooke {
+            margin-top: 20px;
+            background-color: #e9f7f9;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora - Centro de Massa</h1>
+            <p>
+                O centro de massa de um sistema de partículas ou de um corpo rígido é o ponto onde podemos considerar que toda a massa do sistema ou corpo está concentrada para efeitos de cálculos de movimento. 
+                É uma grandeza importante em mecânica, pois facilita a análise do movimento de sistemas complexos. Para calcular o centro de massa, precisamos considerar as posições e massas de todas as partículas 
+                ou elementos que compõem o sistema.
+            </p>
+            <p>
+                Esta calculadora permite que você insira as massas e suas respectivas coordenadas para determinar o centro de massa do sistema. A fórmula usada é:
+                <br><br>
+                <strong>\[ \text{Centro de Massa (x)} = \frac{\sum (m_i \cdot x_i)}{\sum m_i} \]</strong><br>
+                <strong>\[ \text{Centro de Massa (y)} = \frac{\sum (m_i \cdot y_i)}{\sum m_i} \]</strong>
+                <br><br>
+                Onde \( m_i \) é a massa e \( x_i \), \( y_i \) são as coordenadas de cada massa.
+            </p>
+            <p>Insira as massas e as coordenadas abaixo para calcular o centro de massa.</p>
+
+        <form id="centroDeMassaForm">
+            <div id="massaInputs">
+            </div>
+            <button type="button" onclick="adicionarMassa()">Adicionar Massa</button><br>
+            <button type="button" onclick="calcularCentroDeMassa()">Calcular Centro de Massa</button>
+        </form>
+
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        let numeroDeMassas = 0;
+
+        function adicionarMassa() {
+            numeroDeMassas++;
+            const massaInputs = document.getElementById('massaInputs');
+            massaInputs.innerHTML += `
+                <div>
+                    <label>Massa ${numeroDeMassas}:</label>
+                    <input type="number" step="any" id="massa${numeroDeMassas}" placeholder="Massa ${numeroDeMassas}">
+                    <label>X${numeroDeMassas}:</label>
+                    <input type="number" step="any" id="x${numeroDeMassas}" placeholder="X${numeroDeMassas}">
+                    <label>Y${numeroDeMassas}:</label>
+                    <input type="number" step="any" id="y${numeroDeMassas}" placeholder="Y${numeroDeMassas}">
+                </div>
+            `;
+        }
+
+        function calcularCentroDeMassa() {
+            let massaTotal = 0;
+            let xCentro = 0;
+            let yCentro = 0;
+
+            for (let i = 1; i <= numeroDeMassas; i++) {
+                const massa = parseFloat(document.getElementById(`massa${i}`).value);
+                const x = parseFloat(document.getElementById(`x${i}`).value);
+                const y = parseFloat(document.getElementById(`y${i}`).value);
+
+                massaTotal += massa;
+                xCentro += massa * x;
+                yCentro += massa * y;
+            }
+
+            xCentro /= massaTotal;
+            yCentro /= massaTotal;
+
+            document.getElementById('resultado').innerHTML = `
+                <h2>Resultado:</h2>
+                <p>Centro de Massa: (${xCentro.toFixed(2)}, ${yCentro.toFixed(2)})</p>
+            `;
+        }
+    </script>
+</body>
+</html>

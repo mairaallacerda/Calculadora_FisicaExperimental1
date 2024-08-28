@@ -8,7 +8,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url("{{ url_for('static', filename='images/fundo.webp') }}"); /* Substitua pelo caminho da sua imagem de fundo */
+            background-image: url("{{ url_for('static', filename='images/fundo.webp') }}"); 
             background-size: cover;
             color: white;
             text-align: center;
@@ -47,7 +47,8 @@
         <h2>Escolha o que deseja calcular:</h2>
         <a href="{{ url_for('choose_solid') }}" class="button">Momento de Inércia</a>
         <a href="{{ url_for('lei_de_hooke') }}" class="button">Lei de Hooke</a>
-        
-    </div>
+        <a href="{{ url_for('centro_de_massa') }}" class="button">Centro de Massa</a>
+        <a href="{{ url_for('decomposicao_de_forcas') }}" class="button">Decomposição de Força</a>
+    </div>    
 </body>
 </html>
