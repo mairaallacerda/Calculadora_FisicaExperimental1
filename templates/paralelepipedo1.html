@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cálculo do Centro de Massa - Paralelepípedo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        p, ul, label {
+            font-size: 16px;
+            color: #555;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+        label, input {
+            margin-bottom: 10px;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #resultMass {
+            margin-top: 20px;
+            background-color: #e9f7f9;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #007BFF;
+        }
+        img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Cálculo do Centro de Massa - Paralelepípedo</h1>
+        <h2>O que é o Centro de Massa de um Paralelepipedo?</h2>
+
+
+        <p>Um paralelepípedo é um sólido tridimensional em que suas faces são paralelogramos. Para um paralelepípedo homogêneo (de densidade uniforme), o centro de massa está localizado na interseção das diagonais do sólido.
+
+        <p>O centro de massa de um paralelepípedo é o ponto onde toda a massa do sólido pode ser considerada concentrada para efeitos de cálculo.
+        <p>
+            Se o paralelepípedo tem comprimento \(a\), largura \(b\) e altura \(c\), e sua densidade é uniforme, o centro de massa está localizado nas coordenadas:
+        </p>
+        <p>
+            \[
+            \left(\frac{a}{2}, \frac{b}{2}, \frac{c}{2}\right)
+            \]
+        </p>
+        <p>
+            <strong>Explicação:</strong>
+        </p>
+        <ul>
+            <li><strong>Coordenada \(x\):</strong> \(\frac{a}{2}\) representa a posição média ao longo da dimensão do comprimento.</li>
+            <li><strong>Coordenada \(y\):</strong> \(\frac{b}{2}\) representa a posição média ao longo da largura.</li>
+            <li><strong>Coordenada \(z\):</strong> \(\frac{c}{2}\) representa a posição média ao longo da altura.</li>
+        </ul>
+
+        <p>OBSERVAÇÃO: assume-se que a densidade é constante e que o sólido está totalmente preenchido.</p>
+
+    
+        <img src="{{ url_for('static', filename='images/paralelepipedo.jpeg') }}" alt="Imagem de um Paralelepípedo">
+
+        <form id="massForm">
+            <label for="length">Comprimento (a) em cm:</label>
+            <input type="number" id="length" name="length" step="any" required>
+            <label for="width">Largura (b) em cm:</label>
+            <input type="number" id="width" name="width" step="any" required>
+            <label for="height">Altura (c) em cm:</label>
+            <input type="number" id="height" name="height" step="any" required>
+            <button type="submit">Calcular Centro de Massa</button>
+        </form>
+        
+        <div id="resultMass" style="display:none;">
+            <h2>Resultado do Cálculo</h2>
+            <div id="equationsMass"></div>
+            <div id="finalResultMass"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('massForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const length = parseFloat(document.getElementById('length').value);
+            const width = parseFloat(document.getElementById('width').value);
+            const height = parseFloat(document.getElementById('height').value);
+
+            const x_cm = length / 2;
+            const y_cm = width / 2;
+            const z_cm = height / 2;
+
+            document.getElementById('equationsMass').innerHTML = `
+                <p><b>Fórmulas:</b></p>
+                <ul>
+                    <li>\\[ x_{cm} = \\frac{a}{2} = \\frac{${length.toFixed(2)}}{2} = ${x_cm.toFixed(2)} \\text{ cm} \\]</li>
+                    <li>\\[ y_{cm} = \\frac{b}{2} = \\frac{${width.toFixed(2)}}{2} = ${y_cm.toFixed(2)} \\text{ cm} \\]</li>
+                    <li>\\[ z_{cm} = \\frac{c}{2} = \\frac{${height.toFixed(2)}}{2} = ${z_cm.toFixed(2)} \\text{ cm} \\]</li>
+                </ul>
+            `;
+
+            document.getElementById('finalResultMass').innerHTML = `
+                <p><b>Centro de Massa:</b></p>
+                <p>x = ${x_cm.toFixed(2)} cm, y = ${y_cm.toFixed(2)} cm, z = ${z_cm.toFixed(2)} cm</p>
+            `;
+
+            document.getElementById('resultMass').style.display = 'block';
+            MathJax.typeset(); // Atualiza o MathJax para renderizar as equações
+        });
+    </script>
+</body>
+</html>

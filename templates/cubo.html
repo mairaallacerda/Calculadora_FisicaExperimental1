@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Momento de Inércia - Cubo</title>
+    <title>Cálculo do Momento de Inércia - Cubo</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
@@ -66,7 +66,7 @@
         button:hover {
             background-color: #0056b3;
         }
-        #resultHooke {
+        #resultSection {
             margin-top: 20px;
             background-color: #e9f7f9;
             padding: 15px;
@@ -76,68 +76,136 @@
     </style>
 </head>
 <body>
+    <h1>Momento de Inércia - Cubo</h1>
     <div class="container">
-        <h1>Momento de Inércia - Cubo</h1>
-        <p>
-            O momento de inércia é uma medida da distribuição da massa de um objeto em relação a um eixo de rotação. Para um cubo, que é um caso especial de paralelepípedo onde todas as arestas possuem o mesmo comprimento, o momento de inércia pode ser calculado em relação aos três eixos principais que passam pelo seu centro de massa.
-        </p>
-        <p>
-            Considerando um cubo com aresta \( a \) e massa \( M \), o momento de inércia em relação aos eixos \( x \), \( y \) e \( z \) pode ser calculado pelas seguintes fórmulas:
-        </p>
-        <div id="equations">
-            <p>Fórmulas utilizadas:</p>
+        <div class="explanation">
+            <p>
+                O momento de inércia é uma medida da distribuição da massa de um objeto em relação a um eixo de rotação. Para um cubo, que é um caso especial de paralelepípedo onde todas as arestas possuem o mesmo comprimento, o momento de inércia pode ser calculado em relação aos três eixos principais que passam pelo seu centro de massa.            </p>
+            <p>
+                <p>
+                    Considerando um cubo com aresta \( a \) e massa \( M \), o momento de inércia em relação aos eixos \( x \), \( y \) e \( z \) pode ser calculado pelas seguintes fórmulas:
+                
+                    <p>Fórmulas utilizadas:</p>
             <p>\( I_x = \frac{1}{12} M (a^2 + a^2) = \frac{1}{6} M a^2 \)</p>
             <p>\( I_y = \frac{1}{12} M (a^2 + a^2) = \frac{1}{6} M a^2 \)</p>
             <p>\( I_z = \frac{1}{12} M (a^2 + a^2) = \frac{1}{6} M a^2 \)</p>
-        </div>
-        <p>
-            Para calcular a incerteza associada ao momento de inércia, utilizamos a fórmula de propagação de incertezas, considerando as incertezas na medida da aresta \( \Delta a \) e na massa \( \Delta M \).
+
+            </p>
+            <p>Onde:</p>
+            <ul>
+                <li>\( M \) é a massa do cubo.</li>
+                <li>\( a \) é o comprimento da aresta do cubo.</li>
+            </ul>
+
+
+<p>
+            O momento de inércia \(I\) de um cubo sólido em relação a um eixo que passa pelo centro e é paralelo a uma das faces é dado por:
         </p>
-        <form id="inertiaForm">
-            <label for="mass">Massa (kg):</label>
-            <input type="number" id="mass" required><br>
-            <label for="edgeLength">Comprimento da aresta \( a \) (m):</label>
-            <input type="number" id="edgeLength" required><br>
-            <label for="deltaMass">Incerteza na massa \( \Delta M \) (kg):</label>
-            <input type="number" id="deltaMass" required><br>
-            <label for="deltaEdgeLength">Incerteza no comprimento da aresta \( \Delta a \) (m):</label>
-            <input type="number" id="deltaEdgeLength" required><br><br>
-            <button type="submit">Calcular</button>
+        <p>
+            \[
+            I = \frac{1}{6} M a^2
+            \]
+        </p>
+        <h2>Cálculo da Incerteza</h2>
+    <p>
+        Suponha que a massa \( M \) e a aresta \( a \) do cubo tenham incertezas \(\Delta M\) e \(\Delta a\), respectivamente. A incerteza no momento de inércia \(\Delta I\) pode ser calculada usando a fórmula de propagação de erros:
+    </p>
+    <p>
+        \[
+        \Delta I = \sqrt{\left( \frac{\partial I}{\partial M} \cdot \Delta M \right)^2 + \left( \frac{\partial I}{\partial a} \cdot \Delta a \right)^2}
+        \]
+    </p>
+    <p>
+        Onde as derivadas parciais são:
+    </p>
+    <p>
+        \[
+        \frac{\partial I}{\partial M} = \frac{1}{6} a^2
+        \]
+    </p>
+    <p>
+        \[
+        \frac{\partial I}{\partial a} = \frac{1}{3} M a
+        \]
+    </p>
+
+        </div>
+
+        <form id="calculationForm">
+            <label for="mass">Massa (g):</label>
+            <input type="number" id="mass" name="mass" required>
+
+            <label for="edgeLength">Comprimento da Aresta (a) (cm):</label>
+            <input type="number" id="edgeLength" name="edgeLength" required>
+
+            <label for="deltaMass">Incerteza da Massa (g):</label>
+            <input type="number" id="deltaMass" name="deltaMass" required>
+
+            <label for="deltaEdgeLength">Incerteza da Aresta (cm):</label>
+            <input type="number" step="0.001" id="deltaEdgeLength" name="deltaEdgeLength" required>
+
+            <button type="submit">Calcular Momento de Inércia</button>
         </form>
-        <div id="resultSection">
-            <h2>Resultados</h2>
+
+        <div id="resultSection" style="display:none;">
+            <h2>Resultado dos Cálculos</h2>
+            <div id="equations"></div>
             <div id="finalResult"></div>
         </div>
     </div>
+
     <script>
-        document.getElementById('inertiaForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const mass = parseFloat(document.getElementById('mass').value);
-            const a = parseFloat(document.getElementById('edgeLength').value);
-            const deltaM = parseFloat(document.getElementById('deltaMass').value);
-            const deltaA = parseFloat(document.getElementById('deltaEdgeLength').value);
-            
-            const I = (1/6) * mass * Math.pow(a, 2);
+        document.getElementById('calculationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-            const dIda = (1/3) * mass * a;
-            const dIdM = (1/6) * Math.pow(a, 2);
-            
-            const deltaI = Math.sqrt(Math.pow(dIda * deltaA, 2) + Math.pow(dIdM * deltaM, 2));
+            // Obtendo os valores de massa, aresta e incertezas
+            const mass_g = parseFloat(document.getElementById('mass').value);
+            const edgeLength_cm = parseFloat(document.getElementById('edgeLength').value);
+            const deltaMass_g = parseFloat(document.getElementById('deltaMass').value);
+            const deltaEdgeLength_cm = parseFloat(document.getElementById('deltaEdgeLength').value);
 
+            // Convertendo de g para kg e de cm para m
+            const mass_kg = mass_g / 1000;
+            const edgeLength_m = edgeLength_cm / 100;
+            const deltaMass_kg = deltaMass_g / 1000;
+            const deltaEdgeLength_m = deltaEdgeLength_cm / 100;
+
+            // Cálculo do momento de inércia
+            const I = (1 / 6) * mass_kg * Math.pow(edgeLength_m, 2);
+
+            // Cálculo das derivadas para a incerteza
+            const dIdM = (1 / 6) * Math.pow(edgeLength_m, 2);
+            const dIda = (1 / 3) * mass_kg * edgeLength_m;
+
+            // Cálculo da incerteza no momento de inércia
+            const delta_I = Math.sqrt(
+                Math.pow(dIdM * deltaMass_kg, 2) +
+                Math.pow(dIda * deltaEdgeLength_m, 2)
+            );
+
+            // Exibição dos cálculos detalhados
             document.getElementById('equations').innerHTML = `
-                <p>Fórmulas utilizadas:</p>
-                <p>I_x = \\( \\frac{1}{12} M (a^2 + a^2) \\) = \\( \\frac{1}{6} M a^2 \\)</p>
-                <p>Substituindo os valores:</p>
-                <p>I_x = I_y = I_z = (1/6) * ${mass.toFixed(2)} * (${a.toFixed(2)}^2) = ${I.toFixed(2)} kg·m²</p>
+                <p><strong>Conversão de Unidades:</strong></p>
+                <p>\\[ \\text{Massa: } ${mass_g} \\text{ g} = ${mass_kg.toFixed(4)} \\text{ kg} \\]</p>
+                <p>\\[ \\text{Comprimento da Aresta: } ${edgeLength_cm} \\text{ cm} = ${edgeLength_m.toFixed(4)} \\text{ m} \\]</p>
+                <p><strong>Fórmula do Momento de Inércia:</strong></p>
+                <p>\\[ I = \\frac{1}{6} M a^2 \\]</p>
+                <p><strong>Substituindo os valores:</strong></p>
+                <p>\\[ I = \\frac{1}{6} \\cdot ${mass_kg.toFixed(4)} \\cdot (${edgeLength_m.toFixed(4)})^2 = ${I.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
+
+                <p><strong>Incerteza no Momento de Inércia:</strong></p>
+                <p>\\[ \\Delta I = \\sqrt{ \\left( \\frac{1}{6} \\cdot ${Math.pow(edgeLength_m, 2).toFixed(4)} \\cdot \\Delta M \\right)^2 + \\left( \\frac{1}{3} \\cdot ${mass_kg.toFixed(4)} \\cdot ${edgeLength_m.toFixed(4)} \\cdot \\Delta a \\right)^2 } \\]</p>
+                <p><strong>Substituindo os valores:</strong></p>
+                <p>\\[ \\Delta I = \\sqrt{ \\left( \\frac{1}{6} \\cdot ${Math.pow(edgeLength_m, 2).toFixed(4)} \\cdot ${deltaMass_kg.toFixed(4)} \\right)^2 + \\left( \\frac{1}{3} \\cdot ${mass_kg.toFixed(4)} \\cdot ${edgeLength_m.toFixed(4)} \\cdot ${deltaEdgeLength_m.toFixed(4)} \\right)^2 } \\]</p>
             `;
-            
+
             document.getElementById('finalResult').innerHTML = `
-                <p><strong>Momento de Inércia (I):</strong> ${I.toFixed(2)} ± ${deltaI.toFixed(2)} kg·m²</p>
+                <p><strong>Resultado Final:</strong></p>
+                <p>\\[ I = ${I.toFixed(4)} \\pm ${delta_I.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
             `;
 
             document.getElementById('resultSection').style.display = 'block';
-            MathJax.typeset();
+            MathJax.typeset(); // Atualiza o MathJax para renderizar as equações
         });
     </script>
 </body>

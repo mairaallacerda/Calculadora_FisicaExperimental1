@@ -80,8 +80,12 @@
         <h1>Calculadora - Lei de Hooke</h1>
 
         <h2>O que é a Lei de Hooke?</h2>
+        
         <p>
-            A Lei de Hooke estabelece que, para pequenas deformações, a força necessária para esticar ou comprimir um material elástico é proporcional à deformação que o material sofre. Esta lei é geralmente expressa da seguinte forma:
+            A Lei de Hooke é um princípio fundamental na física e na engenharia que descreve o comportamento elástico dos materiais. Nomeada em homenagem ao físico britânico Robert Hooke, que a formulou em 1660, a lei afirma que, para muitos materiais, a deformação (ou elongação) é proporcional à força aplicada, desde que as deformações sejam pequenas.
+        </p>
+        <p>
+            A Lei de Hooke é expressa pela fórmula:
         </p>
         <p>
             \[ F = k \cdot x \]
@@ -90,23 +94,21 @@
             onde:
         </p>
         <ul>
-            <li>\( F \) é a força aplicada ao material (em Newtons, N).</li>
-            <li>\( k \) é a constante elástica ou rigidez do material (em Newtons por metro, N/m).</li>
+            <li>\( F \) é a força aplicada sobre o material (em Newtons, N).</li>
+            <li>\( k \) é a constante elástica ou de mola (em Newtons por metro, N/m).</li>
             <li>\( x \) é a deformação ou elongação do material (em metros, m).</li>
         </ul>
-
+    
         <h3>Derivação e Explicação</h3>
         <p>
-            1. Material Elástico: A Lei de Hooke se aplica a materiais que retornam à sua forma original após a remoção da força deformante. Esses materiais são chamados de elásticos. Exemplos comuns incluem molas e borrachas.
+            1. <strong>Material Elástico:</strong> A Lei de Hooke se aplica a materiais que retornam à sua forma original após a remoção da força deformante. Esses materiais são chamados de elásticos. Exemplos comuns incluem molas e borrachas.
         </p>
         <p>
-            2. Constante de Rigidez \(k\): A constante \( k \) é uma medida de quão rígido ou flexível um material é. Materiais com um valor alto de \( k \) são mais rígidos e resistem mais à deformação. Já materiais com valores baixos são mais flexíveis.
+            2. <strong>Constante de Rigidez \( k \):</strong> A constante \( k \) é uma medida de quão rígido ou flexível um material é. Materiais com um valor alto de \( k \) são mais rígidos e resistem mais à deformação. Já materiais com valores baixos são mais flexíveis.
         </p>
         <p>
-            3. Deformação \(x\): A deformação \( x \) é a diferença entre o comprimento original do material e o comprimento estendido ou comprimido. No caso de uma mola, isso seria a diferença entre o comprimento da mola com e sem a força aplicada.
+            3. <strong>Deformação \( x \):</strong> A deformação \( x \) é a diferença entre o comprimento original do material e o comprimento estendido ou comprimido. No caso de uma mola, isso seria a diferença entre o comprimento da mola com e sem a força aplicada.
         </p>
-
-        <!-- O restante do conteúdo continua da mesma forma -->
 
         <form id="hookeForm">
             <label for="k">Constante Elástica (N/m):</label>
@@ -134,27 +136,47 @@
             const uncertainty_k = parseFloat(document.getElementById('uncertainty_k').value);
             const uncertainty_delta_x_cm = parseFloat(document.getElementById('uncertainty_delta_x').value);
 
+            // Conversão de cm para metros
             const delta_x_m = delta_x_cm / 100;
             const uncertainty_delta_x_m = uncertainty_delta_x_cm / 100;
 
+            // Cálculo da força elástica
             const force = k * delta_x_m;
-            const uncertainty = Math.sqrt(
-                Math.pow(delta_x_m * uncertainty_k, 2) + 
-                Math.pow(k * uncertainty_delta_x_m, 2)
-            );
 
+            // Cálculo da incerteza da força
+            const term1 = delta_x_m * uncertainty_k;
+            const term2 = k * uncertainty_delta_x_m;
+            const uncertainty = Math.sqrt(term1 ** 2 + term2 ** 2);
+
+            // Exibindo os cálculos com as fórmulas "bonitinhas"
             document.getElementById('equationsHooke').innerHTML = `
-                <p><b>Equação:</b> F = k * Δx</p>
-                <p><b>Conversão:</b> Δx = ${delta_x_cm} cm = ${delta_x_m.toFixed(4)} m</p>
-                <p><b>Cálculo:</b> F = ${k} * ${delta_x_m.toFixed(4)} = ${force.toFixed(4)} N</p>
-                <p><b>Incerteza:</b> ΔF = √[(Δx * Δk)² + (k * ΔΔx)²] = ${uncertainty.toFixed(4)} N</p>
+                <p><b>Fórmula Usada:</b> \\( F = k \\cdot \\Delta x \\)</p>
+                <p><b>Conversão da Deformação:</b> \\( \\Delta x = ${delta_x_cm} \\text{ cm} = ${delta_x_m.toFixed(4)} \\text{ m} \\)</p>
+                <p><b>Cálculo da Força:</b> \\( F = ${k.toFixed(2)} \\cdot ${delta_x_m.toFixed(4)} = ${force.toFixed(4)} \\text{ N} \\)</p>
+                <p><b>Passo a Passo do Cálculo da Incerteza:</b></p>
+                <p>
+                    \\[ \\Delta F = \\sqrt{(\\Delta x \\cdot \\Delta k)^2 + (k \\cdot \\Delta \\Delta x)^2} \\]
+                </p>
+                <p>
+                    Passo 1: Calcular \\( \\Delta x \\cdot \\Delta k \\): <br>
+                    \\( ${delta_x_m.toFixed(4)} \\cdot ${uncertainty_k.toFixed(4)} = ${term1.toFixed(4)} \\)
+                </p>
+                <p>
+                    Passo 2: Calcular \\( k \\cdot \\Delta \\Delta x \\): <br>
+                    \\( ${k.toFixed(4)} \\cdot ${uncertainty_delta_x_m.toFixed(4)} = ${term2.toFixed(4)} \\)
+                </p>
+                <p>
+                    Passo 3: Substituir os valores e calcular a incerteza final: <br>
+                    \\( \\Delta F = \\sqrt{(${term1.toFixed(4)})^2 + (${term2.toFixed(4)})^2} = ${uncertainty.toFixed(4)} \\text{ N} \\)
+                </p>
             `;
 
             document.getElementById('finalResultHooke').innerHTML = `
-                <p><b>Força Elástica:</b> ${force.toFixed(4)} ± ${uncertainty.toFixed(4)} N</p>
+                <p><b>Força Elástica Calculada:</b> \\( F = ${force.toFixed(4)} \\pm ${uncertainty.toFixed(4)} \\text{ N} \\)</p>
             `;
 
             document.getElementById('resultHooke').style.display = 'block';
+            MathJax.typeset();  // Atualiza o MathJax para renderizar as equações
         });
     </script>
 </body>

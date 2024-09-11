@@ -4,98 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cálculo do Momento de Inércia - Paralelepípedo</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        h1, h2 {
-            text-align: center;
-        }
-        .content-container {
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            margin-top: 20px;
+            flex-direction: column;
+            min-height: 100vh;
         }
-        .explanation {
-            max-width: 600px;
-            text-align: justify;
-            margin-bottom: 20px;
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+        h1, h2, h3 {
+            text-align: center;
+            color: #333;
+        }
+        p, ul, label {
+            font-size: 16px;
+            color: #555;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 5px;
         }
         form {
             display: flex;
             flex-direction: column;
-            align-items: center;
-        }
-        button {
             margin-top: 20px;
         }
+        label, input {
+            margin-bottom: 10px;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #resultSection {
+            margin-top: 20px;
+            background-color: #e9f7f9;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #007BFF;
+        }
     </style>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <h1>Momento de Inércia - Paralelepípedo</h1>
-    <div class="content-container">
+    <div class="container">
         <div class="explanation">
-            <h2>O que é o Momento de Inércia de um Paralelepípedo?</h2>
-            <p>O momento de inércia é uma medida da distribuição da massa de um objeto em relação a um eixo de rotação. Para um paralelepípedo, que é um sólido com faces retangulares, o cálculo do momento de inércia depende das dimensões do sólido e do eixo em torno do qual ele gira.</p>
-            <p><strong>1. Definição e Fórmula</strong></p>
-            <p>Considere um paralelepípedo com dimensões \( a \), \( b \) e \( c \) ao longo dos eixos \( x \), \( y \) e \( z \), respectivamente. Suponha que a massa total do paralelepípedo seja \( M \). O momento de inércia pode ser calculado para diferentes eixos.</p>
-            <p><strong>Eixo \( x \)</strong>: O momento de inércia \( I_x \) é dado por:</p>
-            <p>\[
-               I_x = \frac{1}{12} M (b^2 + c^2)
-            \]</p>
-            <p><strong>Eixo \( y \)</strong>: O momento de inércia \( I_y \) é dado por:</p>
-            <p>\[
-               I_y = \frac{1}{12} M (a^2 + c^2)
-            \]</p>
-            <p><strong>Eixo \( z \)</strong>: O momento de inércia \( I_z \) é dado por:</p>
-            <p>\[
-               I_z = \frac{1}{12} M (a^2 + b^2)
-            \]</p>
-            <p>Essas fórmulas assumem que o paralelepípedo é homogêneo, ou seja, sua massa está uniformemente distribuída.</p>
-            <p><strong>2. Cálculo da Incerteza</strong></p>
-            <p>Para calcular a incerteza no momento de inércia, você deve considerar as incertezas nas dimensões do paralelepípedo e na massa. A incerteza no momento de inércia \( I_x \) é dada por:</p>
-            <p>\[
-               \Delta I_x = \sqrt{\left(\frac{1}{12} \cdot 2b \cdot \Delta b\right)^2 + \left(\frac{1}{12} \cdot 2c \cdot \Delta c\right)^2 + \left(\frac{1}{12} (b^2 + c^2) \cdot \Delta M\right)^2}
-            \]</p>
+            <p>
+                O momento de inércia de um paralelepípedo é calculado em relação aos eixos \(x\), \(y\), e \(z\). As fórmulas são:
+            </p>
+            <p>\( I_x = \frac{1}{12} M (b^2 + c^2) \)</p>
+            <p>\( I_y = \frac{1}{12} M (a^2 + c^2) \)</p>
+            <p>\( I_z = \frac{1}{12} M (a^2 + b^2) \)</p>
+
+            <h2>Cálculo da Incerteza</h2>
+            <p>
+                A incerteza em cada momento de inércia é calculada usando a seguinte fórmula de propagação de incertezas:
+            </p>
+            <p>
+                \[
+                \Delta I = I \cdot \sqrt{\left( \frac{\Delta M}{M} \right)^2 + \left( 2 \cdot \frac{\Delta a}{a} \right)^2 + \left( 2 \cdot \frac{\Delta b}{b} \right)^2 + \left( 2 \cdot \frac{\Delta c}{c} \right)^2}
+                \]
+            </p>
         </div>
-        <form id="calculationForm" action="/calculate" method="post">
-            <label for="measurementTool">Ferramenta de Medição:</label>
-            <select id="measurementTool" name="measurementTool" required>
-                <option value="regua">Régua</option>
-                <option value="paquimetro">Paquímetro</option>
-                <option value="micrometro">Micrômetro</option>
-            </select>
 
-            <label for="toolError">Erro da Ferramenta (em mm):</label>
-            <input type="number" id="toolError" name="toolError" step="any" required>
+        <form id="calculationForm">
+            <label for="mass">Massa (g):</label>
+            <input type="number" id="mass" name="mass" required>
 
-            <label for="mass">Massa (M):</label>
-            <input type="number" id="mass" name="mass" step="any" required>
+            <label for="length">Comprimento (a) (cm):</label>
+            <input type="number" id="length" name="length" required>
 
-            <label for="length">Comprimento (a):</label>
-            <input type="number" id="length" name="length" step="any" required>
+            <label for="width">Largura (b) (cm):</label>
+            <input type="number" id="width" name="width" required>
 
-            <label for="width">Largura (b):</label>
-            <input type="number" id="width" name="width" step="any" required>
+            <label for="height">Altura (c) (cm):</label>
+            <input type="number" id="height" name="height" required>
 
-            <label for="height">Altura (c):</label>
-            <input type="number" id="height" name="height" step="any" required>
+            <label for="deltaMass">Incerteza da Massa (g):</label>
+            <input type="number" id="deltaMass" name="deltaMass" required>
 
-            <label for="deltaMass">Incerteza da Massa (ΔM):</label>
-            <input type="number" id="deltaMass" name="deltaMass" step="any" required>
+            <label for="deltaLength">Incerteza no Comprimento (cm):</label>
+            <input type="number" step="0.001" id="deltaLength" name="deltaLength" required>
 
-            <label for="deltaLength">Incerteza do Comprimento (Δa):</label>
-            <input type="number" id="deltaLength" name="deltaLength" step="any" required>
+            <label for="deltaWidth">Incerteza na Largura (cm):</label>
+            <input type="number" step="0.001" id="deltaWidth" name="deltaWidth" required>
 
-            <label for="deltaWidth">Incerteza da Largura (Δb):</label>
-            <input type="number" id="deltaWidth" name="deltaWidth" step="any" required>
+            <label for="deltaHeight">Incerteza na Altura (cm):</label>
+            <input type="number" step="0.001" id="deltaHeight" name="deltaHeight" required>
 
-            <label for="deltaHeight">Incerteza da Altura (Δc):</label>
-            <input type="number" id="deltaHeight" name="deltaHeight" step="any" required>
-
-            <button type="submit">Calcular Momento de Inércia e Incertezas</button>
+            <button type="submit">Calcular Momento de Inércia</button>
         </form>
+
         <div id="resultSection" style="display:none;">
             <h2>Resultado dos Cálculos</h2>
             <div id="equations"></div>
@@ -107,53 +136,84 @@
         document.getElementById('calculationForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const mass = parseFloat(document.getElementById('mass').value);
-            const length = parseFloat(document.getElementById('length').value);
-            const width = parseFloat(document.getElementById('width').value);
-            const height = parseFloat(document.getElementById('height').value);
-            const deltaMass = parseFloat(document.getElementById('deltaMass').value);
-            const deltaLength = parseFloat(document.getElementById('deltaLength').value);
-            const deltaWidth = parseFloat(document.getElementById('deltaWidth').value);
-            const deltaHeight = parseFloat(document.getElementById('deltaHeight').value);
+            const mass_g = parseFloat(document.getElementById('mass').value);
+            const length_cm = parseFloat(document.getElementById('length').value);
+            const width_cm = parseFloat(document.getElementById('width').value);
+            const height_cm = parseFloat(document.getElementById('height').value);
+            const deltaMass_g = parseFloat(document.getElementById('deltaMass').value);
+            const deltaLength_cm = parseFloat(document.getElementById('deltaLength').value);
+            const deltaWidth_cm = parseFloat(document.getElementById('deltaWidth').value);
+            const deltaHeight_cm = parseFloat(document.getElementById('deltaHeight').value);
 
-            const I_x = (1/12) * mass * (Math.pow(width, 2) + Math.pow(height, 2));
-            const I_y = (1/12) * mass * (Math.pow(length, 2) + Math.pow(height, 2));
-            const I_z = (1/12) * mass * (Math.pow(length, 2) + Math.pow(width, 2));
+            // Convertendo para SI (kg e m)
+            const mass_kg = mass_g / 1000;
+            const length_m = length_cm / 100;
+            const width_m = width_cm / 100;
+            const height_m = height_cm / 100;
+            const deltaMass_kg = deltaMass_g / 1000;
+            const deltaLength_m = deltaLength_cm / 100;
+            const deltaWidth_m = deltaWidth_cm / 100;
+            const deltaHeight_m = deltaHeight_cm / 100;
 
-            const delta_I_x = Math.sqrt(
-                Math.pow((1/6) * width * deltaWidth * mass, 2) +
-                Math.pow((1/6) * height * deltaHeight * mass, 2) +
-                Math.pow((1/12) * (Math.pow(width, 2) + Math.pow(height, 2)) * deltaMass, 2)
+            // Cálculo do momento de inércia para os eixos
+            const I_x = (1 / 12) * mass_kg * (Math.pow(width_m, 2) + Math.pow(height_m, 2));
+            const I_y = (1 / 12) * mass_kg * (Math.pow(length_m, 2) + Math.pow(height_m, 2));
+            const I_z = (1 / 12) * mass_kg * (Math.pow(length_m, 2) + Math.pow(width_m, 2));
+
+            // Cálculo das incertezas no momento de inércia
+            const delta_I_x = I_x * Math.sqrt(
+                Math.pow(deltaMass_kg / mass_kg, 2) +
+                Math.pow(2 * deltaWidth_m / width_m, 2) +
+                Math.pow(2 * deltaHeight_m / height_m, 2)
             );
 
-            const delta_I_y = Math.sqrt(
-                Math.pow((1/6) * length * deltaLength * mass, 2) +
-                Math.pow((1/6) * height * deltaHeight * mass, 2) +
-                Math.pow((1/12) * (Math.pow(length, 2) + Math.pow(height, 2)) * deltaMass, 2)
+            const delta_I_y = I_y * Math.sqrt(
+                Math.pow(deltaMass_kg / mass_kg, 2) +
+                Math.pow(2 * deltaLength_m / length_m, 2) +
+                Math.pow(2 * deltaHeight_m / height_m, 2)
             );
 
-            const delta_I_z = Math.sqrt(
-                Math.pow((1/6) * length * deltaLength * mass, 2) +
-                Math.pow((1/6) * width * deltaWidth * mass, 2) +
-                Math.pow((1/12) * (Math.pow(length, 2) + Math.pow(width, 2)) * deltaMass, 2)
+            const delta_I_z = I_z * Math.sqrt(
+                Math.pow(deltaMass_kg / mass_kg, 2) +
+                Math.pow(2 * deltaLength_m / length_m, 2) +
+                Math.pow(2 * deltaWidth_m / width_m, 2)
             );
 
+            // Exibição dos cálculos detalhados para todos os eixos
             document.getElementById('equations').innerHTML = `
-                <p>Ferramenta de Medição: ${tool}</p>
-                <p>Erro da Ferramenta: ±${error} mm</p>
-                <p>I_x = (1/12) * ${mass.toFixed(2)} * (${width.toFixed(2)}^2 + ${height.toFixed(2)}^2) = ${I_x.toFixed(2)} kg·m²</p>
-                <p>I_y = (1/12) * ${mass.toFixed(2)} * (${length.toFixed(2)}^2 + ${height.toFixed(2)}^2) = ${I_y.toFixed(2)} kg·m²</p>
-                <p>I_z = (1/12) * ${mass.toFixed(2)} * (${length.toFixed(2)}^2 + ${width.toFixed(2)}^2) = ${I_z.toFixed(2)} kg·m²</p>
+                <p><strong>Conversão de Unidades:</strong></p>
+                <p>\\[ \\text{Massa: } ${mass_g} \\text{ g} = ${mass_kg.toFixed(4)} \\text{ kg} \\]</p>
+                <p>\\[ \\text{Comprimento: } ${length_cm} \\text{ cm} = ${length_m.toFixed(4)} \\text{ m} \\]</p>
+                <p>\\[ \\text{Largura: } ${width_cm} \\text{ cm} = ${width_m.toFixed(4)} \\text{ m} \\]</p>
+                <p>\\[ \\text{Altura: } ${height_cm} \\text{ cm} = ${height_m.toFixed(4)} \\text{ m} \\]</p>
+
+                <p><strong>Cálculo do Momento de Inércia:</strong></p>
+                <p>\\[ I_x = \\frac{1}{12} M (b^2 + c^2) \\]</p>
+                <p>Substituindo os valores:</p>
+                <p>\\[ I_x = \\frac{1}{12} \\cdot ${mass_kg.toFixed(4)} \\cdot (${width_m.toFixed(4)}^2 + ${height_m.toFixed(4)}^2) = ${I_x.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
+
+                <p>\\[ I_y = \\frac{1}{12} M (a^2 + c^2) \\]</p>
+                <p>Substituindo os valores:</p>
+                <p>\\[ I_y = \\frac{1}{12} \\cdot ${mass_kg.toFixed(4)} \\cdot (${length_m.toFixed(4)}^2 + ${height_m.toFixed(4)}^2) = ${I_y.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
+
+                <p>\\[ I_z = \\frac{1}{12} M (a^2 + b^2) \\]</p>
+                <p>Substituindo os valores:</p>
+                <p>\\[ I_z = \\frac{1}{12} \\cdot ${mass_kg.toFixed(4)} \\cdot (${length_m.toFixed(4)}^2 + ${width_m.toFixed(4)}^2) = ${I_z.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
+
+                <p><strong>Cálculo da Incerteza no Momento de Inércia:</strong></p>
+                <p>\\[ \\Delta I_x = I_x \\cdot \\sqrt{ \\left( \\frac{\\Delta M}{M} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta b}{b} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta c}{c} \\right)^2 } \\]</p>
+                <p>\\[ \\Delta I_y = I_y \\cdot \\sqrt{ \\left( \\frac{\\Delta M}{M} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta a}{a} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta c}{c} \\right)^2 } \\]</p>
+                <p>\\[ \\Delta I_z = I_z \\cdot \\sqrt{ \\left( \\frac{\\Delta M}{M} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta a}{a} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta b}{b} \\right)^2 } \\]</p>
             `;
-            
+
             document.getElementById('finalResult').innerHTML = `
-                <p><strong>Momento de Inércia ao longo do eixo x (I_x):</strong> ${I_x.toFixed(2)} ± ${delta_I_x.toFixed(2)} kg·m²</p>
-                <p><strong>Momento de Inércia ao longo do eixo y (I_y):</strong> ${I_y.toFixed(2)} ± ${delta_I_y.toFixed(2)} kg·m²</p>
-                <p><strong>Momento de Inércia ao longo do eixo z (I_z):</strong> ${I_z.toFixed(2)} ± ${delta_I_z.toFixed(2)} kg·m²</p>
+                <p><strong>Momento de Inércia ao longo do eixo x:</strong> ${I_x.toFixed(4)} \\pm ${delta_I_x.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2</p>
+                <p><strong>Momento de Inércia ao longo do eixo y:</strong> ${I_y.toFixed(4)} \\pm ${delta_I_y.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2</p>
+                <p><strong>Momento de Inércia ao longo do eixo z:</strong> ${I_z.toFixed(4)} \\pm ${delta_I_z.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2</p>
             `;
 
             document.getElementById('resultSection').style.display = 'block';
-            MathJax.typeset();
+            MathJax.typeset(); // Atualiza o MathJax para renderizar as equações
         });
     </script>
 </body>

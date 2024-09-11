@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
     <title>Calculadora - Centro de Massa</title>
     <style>
         body {
@@ -78,25 +77,30 @@
 <body>
     <div class="container">
         <h1>Calculadora - Centro de Massa</h1>
-            <p>
-                O centro de massa de um sistema de partículas ou de um corpo rígido é o ponto onde podemos considerar que toda a massa do sistema ou corpo está concentrada para efeitos de cálculos de movimento. 
-                É uma grandeza importante em mecânica, pois facilita a análise do movimento de sistemas complexos. Para calcular o centro de massa, precisamos considerar as posições e massas de todas as partículas 
-                ou elementos que compõem o sistema.
-            </p>
-            <p>
-                Esta calculadora permite que você insira as massas e suas respectivas coordenadas para determinar o centro de massa do sistema. A fórmula usada é:
-                <br><br>
-                <strong>\[ \text{Centro de Massa (x)} = \frac{\sum (m_i \cdot x_i)}{\sum m_i} \]</strong><br>
-                <strong>\[ \text{Centro de Massa (y)} = \frac{\sum (m_i \cdot y_i)}{\sum m_i} \]</strong>
-                <br><br>
-                Onde \( m_i \) é a massa e \( x_i \), \( y_i \) são as coordenadas de cada massa.
-            </p>
-            <p>Insira as massas e as coordenadas abaixo para calcular o centro de massa.</p>
+        <p>
+            O centro de massa de um sistema de partículas ou de um corpo rígido é o ponto onde podemos considerar que toda a massa do sistema ou corpo está concentrada para efeitos de cálculos de movimento. 
+            É uma grandeza importante em mecânica, pois facilita a análise do movimento de sistemas complexos. Para calcular o centro de massa, precisamos considerar as posições e massas de todas as partículas 
+            ou elementos que compõem o sistema.
+        </p>
+        <p>
+            Aqui estão as fórmulas para calcular o centro de massa dos sólidos disponíveis:
+        </p>
+        <ul>
+            <li><strong>Paralelepípedo:</strong> Centro no ponto \( \left(\frac{a}{2}, \frac{b}{2}, \frac{c}{2}\right) \).</li>
+            <li><strong>Cilindro:</strong> Centro no ponto \( \left(0, 0, \frac{h}{2}\right) \).</li>
+            <li><strong>Pirâmide:</strong> Centro no ponto \( \left(0, 0, \frac{h}{4}\right) \).</li>
+        </ul>
+        <p>Escolha o sólido para o qual deseja calcular o centro de massa:</p>
 
         <form id="centroDeMassaForm">
-            <div id="massaInputs">
-            </div>
-            <button type="button" onclick="adicionarMassa()">Adicionar Massa</button><br>
+            <label for="solido">Escolha o sólido:</label>
+            <select name="solido" id="solido">
+                <option value="paralelepipedo">Paralelepípedo</option>
+                <option value="cilindro">Cilindro</option>
+                <option value="piramide">Pirâmide</option>
+            </select>
+            <br><br>
+            <div id="dimensoes"></div>
             <button type="button" onclick="calcularCentroDeMassa()">Calcular Centro de Massa</button>
         </form>
 
@@ -104,45 +108,67 @@
     </div>
 
     <script>
-        let numeroDeMassas = 0;
+        document.getElementById('solido').addEventListener('change', function () {
+            const solido = this.value;
+            const dimensoesDiv = document.getElementById('dimensoes');
+            dimensoesDiv.innerHTML = '';
 
-        function adicionarMassa() {
-            numeroDeMassas++;
-            const massaInputs = document.getElementById('massaInputs');
-            massaInputs.innerHTML += `
-                <div>
-                    <label>Massa ${numeroDeMassas}:</label>
-                    <input type="number" step="any" id="massa${numeroDeMassas}" placeholder="Massa ${numeroDeMassas}">
-                    <label>X${numeroDeMassas}:</label>
-                    <input type="number" step="any" id="x${numeroDeMassas}" placeholder="X${numeroDeMassas}">
-                    <label>Y${numeroDeMassas}:</label>
-                    <input type="number" step="any" id="y${numeroDeMassas}" placeholder="Y${numeroDeMassas}">
-                </div>
-            `;
-        }
+            if (solido === 'paralelepipedo') {
+                dimensoesDiv.innerHTML = `
+                    <label>Dimensão a (cm):</label>
+                    <input type="number" step="any" id="dimensaoA" placeholder="a"><br>
+                    <label>Dimensão b (cm):</label>
+                    <input type="number" step="any" id="dimensaoB" placeholder="b"><br>
+                    <label>Dimensão c (cm):</label>
+                    <input type="number" step="any" id="dimensaoC" placeholder="c"><br>
+                `;
+            } else if (solido === 'cilindro') {
+                dimensoesDiv.innerHTML = `
+                    <label>Altura h (cm):</label>
+                    <input type="number" step="any" id="altura" placeholder="h"><br>
+                `;
+            } else if (solido === 'piramide') {
+                dimensoesDiv.innerHTML = `
+                    <label>Altura h (cm):</label>
+                    <input type="number" step="any" id="altura" placeholder="h"><br>
+                `;
+            }
+        });
 
         function calcularCentroDeMassa() {
-            let massaTotal = 0;
-            let xCentro = 0;
-            let yCentro = 0;
+            const solido = document.getElementById('solido').value;
+            let resultado = '';
 
-            for (let i = 1; i <= numeroDeMassas; i++) {
-                const massa = parseFloat(document.getElementById(`massa${i}`).value);
-                const x = parseFloat(document.getElementById(`x${i}`).value);
-                const y = parseFloat(document.getElementById(`y${i}`).value);
+            if (solido === 'paralelepipedo') {
+                const a = parseFloat(document.getElementById('dimensaoA').value);
+                const b = parseFloat(document.getElementById('dimensaoB').value);
+                const c = parseFloat(document.getElementById('dimensaoC').value);
+                const xCentro = (a / 2).toFixed(2);
+                const yCentro = (b / 2).toFixed(2);
+                const zCentro = (c / 2).toFixed(2);
 
-                massaTotal += massa;
-                xCentro += massa * x;
-                yCentro += massa * y;
+                resultado = `Centro de Massa: (${xCentro} cm, ${yCentro} cm, ${zCentro} cm)<br>
+                Cálculos: <br>
+                x = ${a} / 2 = ${xCentro} cm <br>
+                y = ${b} / 2 = ${yCentro} cm <br>
+                z = ${c} / 2 = ${zCentro} cm <br>`;
+            } else if (solido === 'cilindro') {
+                const h = parseFloat(document.getElementById('altura').value);
+                const zCentro = (h / 2).toFixed(2);
+
+                resultado = `Centro de Massa: (0 cm, 0 cm, ${zCentro} cm)<br>
+                Cálculos: <br>
+                z = ${h} / 2 = ${zCentro} cm <br>`;
+            } else if (solido === 'piramide') {
+                const h = parseFloat(document.getElementById('altura').value);
+                const zCentro = (h / 4).toFixed(2);
+
+                resultado = `Centro de Massa: (0 cm, 0 cm, ${zCentro} cm)<br>
+                Cálculos: <br>
+                z = ${h} / 4 = ${zCentro} cm <br>`;
             }
 
-            xCentro /= massaTotal;
-            yCentro /= massaTotal;
-
-            document.getElementById('resultado').innerHTML = `
-                <h2>Resultado:</h2>
-                <p>Centro de Massa: (${xCentro.toFixed(2)}, ${yCentro.toFixed(2)})</p>
-            `;
+            document.getElementById('resultado').innerHTML = `<h2>Resultado:</h2><p>${resultado}</p>`;
         }
     </script>
 </body>

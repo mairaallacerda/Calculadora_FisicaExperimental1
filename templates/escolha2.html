@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escolha o Sólido - Momento de Inércia</title>
+    <title>Escolha o Sólido</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
         /* CSS para centralizar o conteúdo e estilizar a página */
@@ -74,22 +74,18 @@
     </style>
 </head>
 <body>
-    <h1>Momento de Inércia de Diferentes Sólidos</h1>
+    <h1>Centro de Massa de Diferentes Sólidos</h1>
     <div class="content-container">
         <div class="explanation">
             <p>
-                O momento de inércia é uma propriedade física importante que descreve como a massa de um objeto está distribuída em relação a um eixo de rotação. Ele determina a resistência do objeto à mudança em sua rotação quando submetido a um torque. O cálculo do momento de inércia varia dependendo da forma e distribuição de massa do objeto, sendo essencial escolher o sólido correto para realizar o cálculo preciso.
-            </p>
-            <p>
-                Abaixo, você pode escolher o sólido que deseja analisar e calcular o seu momento de inércia com base na geometria e propriedades físicas.
+                O conceito de centro de massa é fundamental na física e na engenharia para entender o comportamento de corpos rígidos sob a ação de forças e torques. O centro de massa é o ponto onde a massa de um corpo pode ser considerada concentrada para efeitos de análise. A seguir, apresentamos as fórmulas e descrições para encontrar o centro de massa de três sólidos comuns: o paralelepípedo, o cilindro e a pirâmide.
             </p>
         </div>
         <div class="button-container">
             <h2>Escolha o Sólido</h2>
-            <a href="{{ url_for('paralelepipedo') }}">Paralelepípedo</a>
-            <a href="{{ url_for('cubo') }}">Cubo</a>
-            <a href="{{ url_for('circulo') }}">Círculo</a>
-            <a href="{{ url_for('circulo_vazado') }}">Círculo Vazado</a>
+            <a href="{{ url_for('paralelepipedo1') }}">Paralelepípedo</a>
+            <a href="{{ url_for('cilindro') }}">Cilindro</a>
+            <a href="{{ url_for('piramide') }}">Pirâmide</a>
         </div>
     </div>
 </body>

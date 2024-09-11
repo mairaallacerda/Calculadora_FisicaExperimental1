@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cálculo do Momento de Inércia - Círculo</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
@@ -67,7 +66,7 @@
         button:hover {
             background-color: #0056b3;
         }
-        #resultHooke {
+        #resultSection {
             margin-top: 20px;
             background-color: #e9f7f9;
             padding: 15px;
@@ -77,85 +76,106 @@
     </style>
 </head>
 <body>
-    <div class="content-container">
+    <div class="container">
         <h1>Momento de Inércia - Círculo (Disco)</h1>
         <p>
-            O momento de inércia <span class="math">\( I \)</span> de um disco sólido em relação a um eixo perpendicular ao seu plano e passando pelo centro pode ser calculado usando a fórmula:
+            O momento de inércia \( I \) de um disco sólido em relação a um eixo perpendicular ao seu plano e passando pelo centro pode ser calculado usando a fórmula:
+        </p>
+        <p>\( I = \frac{1}{2} M R^2 \)</p>
+        <p>        
+            <strong>Explicação:</strong>
+            <ul>
+                <li><span class="math">\( M \)</span> é a massa do disco.</li>
+                <li><span class="math">\( R \)</span> é o raio do disco.</li>
+                <li><strong>Fórmula:</strong> A fórmula mostra que o momento de inércia é diretamente proporcional à massa e ao quadrado do raio. Círculos maiores e mais pesados têm um momento de inércia maior, tornando-os mais difíceis de girar.</li>
+
+            </ul>
+            <p>
+                <strong>Derivação Intuitiva:</strong> O momento de inércia é uma medida da resistência de um corpo à mudança em seu estado de rotação em torno de um eixo. Para um disco, consideramos a distribuição de massa em relação ao eixo de rotação. A fórmula <span class="math">\( \frac{1}{2} M R^2 \)</span> vem da integração da contribuição de cada elemento infinitesimal de massa ao longo do disco.
+            </p>        
+        <h3>Incerteza no Momento de Inércia</h3>
+        <p>
+            A fórmula para a incerteza no momento de inércia é:
         </p>
         <p>
-            <span class="math">\( I = \frac{1}{2} M R^2 \)</span>
-        </p>
-        <p>onde:</p>
-        <ul>
-            <li><span class="math">\( M \)</span> é a massa do disco.</li>
-            <li><span class="math">\( R \)</span> é o raio do disco.</li>
-        </ul>
-        <p>
-            <strong>Derivação Intuitiva:</strong> O momento de inércia é uma medida da resistência de um corpo à mudança em seu estado de rotação em torno de um eixo. Para um disco, consideramos a distribuição de massa em relação ao eixo de rotação. A fórmula <span class="math">\( \frac{1}{2} M R^2 \)</span> vem da integração da contribuição de cada elemento infinitesimal de massa ao longo do disco.
-        </p>
-        <h3>Incerteza do Disco</h3>
-        <p>
-            Para o disco, a fórmula do momento de inércia é <span class="math">\( I = \frac{1}{2} M R^2 \)</span>. Suponha que a incerteza na massa seja <span class="math">\( \Delta M \)</span> e na medida do raio seja <span class="math">\( \Delta R \)</span>. As incertezas nas medições se propagam de acordo com a fórmula geral para propagação de erros:
-        </p>
-        <p>
-            <span class="math">\( \Delta I = \sqrt{\left( \frac{\partial I}{\partial M} \Delta M \right)^2 + \left( \frac{\partial I}{\partial R} \Delta R \right)^2 } \)</span>
+            \[
+            \Delta I = I \cdot \sqrt{\left( \frac{\Delta m}{m} \right)^2 + \left( 2 \cdot \frac{\Delta r}{r} \right)^2 }
+            \]
         </p>
         <p>Onde:</p>
         <ul>
-            <li><span class="math">\( \frac{\partial I}{\partial M} = \frac{1}{2} R^2 \)</span></li>
-            <li><span class="math">\( \frac{\partial I}{\partial R} = M R \)</span></li>
+            <li>\( \Delta m \) é a incerteza na massa.</li>
+            <li>\( \Delta r \) é a incerteza no raio.</li>
         </ul>
-        <p>
-            Portanto:
-        </p>
-        <p>
-            <span class="math">\( \Delta I = \sqrt{\left( \frac{1}{2} R^2 \Delta M \right)^2 + \left( M R \Delta R \right)^2 } \)</span>
-        </p>
-        <h2>Resumo</h2>
-        <ul>
-            <li><strong>Círculo (Disco):</strong> <span class="math">\( I = \frac{1}{2} M R^2 \)</span></li>
+            <p>Insira os valores da massa (g), raio (cm) e as respectivas incertezas para calcular o momento de inércia e sua incerteza.</p>
+    
         </ul>
-        <p>
-            A incerteza no momento de inércia é calculada levando em consideração as incertezas nas medições da massa e do raio, utilizando a fórmula da propagação de erros.
-        </p>
-    </div>
 
-    <form id="calculationForm" action="/calculate" method="post">
-        <label for="mass">Massa (m):</label>
-        <input type="number" id="mass" name="mass" required>
+        <form id="calculationForm">
+            <label for="mass">Massa (g):</label>
+            <input type="number" id="mass" name="mass" required>
 
-        <label for="radius">Raio (r):</label>
-        <input type="number" id="radius" name="radius" required>
+            <label for="radius">Raio (cm):</label>
+            <input type="number" id="radius" name="radius" required>
 
-        <button type="submit">Calcular Momento de Inércia</button>
-    </form>
+            <label for="deltaMass">Incerteza na massa (g):</label>
+            <input type="number" step="0.001" id="deltaMass" name="deltaMass" required>
 
-    <div id="resultSection" style="display:none;">
-        <h2>Resultado dos Cálculos</h2>
-        <div id="equations"></div>
-        <div id="finalResult"></div>
+            <label for="deltaRadius">Incerteza no raio (cm):</label>
+            <input type="number" step="0.0001" id="deltaRadius" name="deltaRadius" required>
+
+            <button type="submit">Calcular Momento de Inércia</button>
+        </form>
+
+        <div id="resultSection" style="display:none;">
+            <h2>Resultado dos Cálculos</h2>
+            <div id="equations"></div>
+            <div id="finalResult"></div>
+        </div>
     </div>
 
     <script>
         document.getElementById('calculationForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            const mass = parseFloat(document.getElementById('mass').value);
-            const radius = parseFloat(document.getElementById('radius').value);
 
-            const momentOfInertia = (1/2) * mass * Math.pow(radius, 2);
+            // Pegando os valores de massa, raio e incertezas
+            const mass_g = parseFloat(document.getElementById('mass').value);
+            const radius_cm = parseFloat(document.getElementById('radius').value);
+            const deltaM_g = parseFloat(document.getElementById('deltaMass').value);
+            const deltaR_cm = parseFloat(document.getElementById('deltaRadius').value);
 
+            // Convertendo de gramas para quilogramas e de centímetros para metros
+            const mass_kg = mass_g / 1000;
+            const radius_m = radius_cm / 100;
+            const deltaM_kg = deltaM_g / 1000;
+            const deltaR_m = deltaR_cm / 100;
+
+            // Cálculo do momento de inércia
+            const I = (1 / 2) * mass_kg * Math.pow(radius_m, 2);
+
+            // Cálculo da incerteza no momento de inércia usando a fórmula fornecida
+            const deltaI = I * Math.sqrt(Math.pow(deltaM_kg / mass_kg, 2) + Math.pow(2 * deltaR_m / radius_m, 2));
+
+            // Mostrando os cálculos bonitinhos
             document.getElementById('equations').innerHTML = `
-                <p>Fórmula utilizada:</p>
-                <p>I = (1/2) * m * r²</p>
-                <p>Substituindo os valores:</p>
-                <p>I = (1/2) * ${mass} * ${radius}²</p>
+                <p><strong>Fórmula utilizada:</strong></p>
+                <p>\\[ I = \\frac{1}{2} M R^2 \\]</p>
+                <p><strong>Substituindo os valores:</strong></p>
+                <p>\\[ I = \\frac{1}{2} \\cdot ${mass_kg.toFixed(4)} \\cdot (${radius_m.toFixed(4)})^2 \\]</p>
+                <p>\\[ I = \\frac{1}{2} \\cdot ${mass_kg.toFixed(4)} \\cdot ${(Math.pow(radius_m, 2)).toFixed(4)} = ${I.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
+                
+                <p><strong>Incerteza no Momento de Inércia (\\( \\Delta I \\)):</strong></p>
+                <p>\\[ \\Delta I = I \\cdot \\sqrt{ \\left( \\frac{\\Delta m}{m} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta r}{r} \\right)^2 } \\]</p>
+                <p>\\[ \\Delta I = ${I.toFixed(4)} \\cdot \\sqrt{ \\left( \\frac{${deltaM_kg.toFixed(4)}}{${mass_kg.toFixed(4)}} \\right)^2 + \\left( 2 \\cdot \\frac{${deltaR_m.toFixed(4)}}{${radius_m.toFixed(4)}} \\right)^2 } \\]</p>
             `;
 
             document.getElementById('finalResult').innerHTML = `
-                <p>Momento de Inércia (I): ${momentOfInertia.toFixed(2)} kg·m²</p>
+                <p><strong>Resultado Final:</strong></p>
+                <p>\\[ I = ${I.toFixed(4)} \\pm ${deltaI.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
             `;
 
             document.getElementById('resultSection').style.display = 'block';
+            MathJax.typeset(); // Atualiza o MathJax para renderizar as equações
         });
     </script>
 </body>

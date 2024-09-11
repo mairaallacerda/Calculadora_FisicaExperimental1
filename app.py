@@ -34,9 +34,21 @@ def circulo_vazado():
 def lei_de_hooke():
     return render_template('lei_de_hooke.html')
 
-@app.route ('/centro_de_massa')
-def centro_de_massa():
-    return render_template('centro_de_massa.html')
+@app.route ('/escolha2')
+def escolha2():
+    return render_template('escolha2.html')
+
+@app.route('/paralelepipedo1')
+def paralelepipedo1():
+    return render_template('paralelepipedo1.html')
+
+@app.route('/cilindro')
+def cilindro():
+    return render_template('cilindro.html')
+
+@app.route('/piramide')
+def piramide():
+    return render_template('piramide.html')
 
 @app.route('/decomposicao_de_forcas')
 def decomposicao_de_forcas():

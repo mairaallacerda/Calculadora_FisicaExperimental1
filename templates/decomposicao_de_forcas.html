@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">]
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <title>Calculadora - Decomposição de Forças</title>
     <style>
@@ -65,7 +65,7 @@
         button:hover {
             background-color: #0056b3;
         }
-        #resultHooke {
+        #resultado {
             margin-top: 20px;
             background-color: #e9f7f9;
             padding: 15px;
@@ -77,18 +77,22 @@
 <body>
     <div class="container">
         <h1>Calculadora - Decomposição de Forças</h1>
-            <p>
-                A decomposição de forças é uma técnica usada para analisar a força em diferentes direções em um plano cartesiano, particularmente quando a força é aplicada em um ângulo.
-                Ao decompor uma força, você divide uma força resultante em componentes que são perpendiculares entre si, normalmente nas direções horizontal (x) e vertical (y).
-            </p>
-            <p>
-                Isso é útil em muitas áreas da física e engenharia para resolver problemas de equilíbrio e movimento. A fórmula utilizada para a decomposição de forças é:
-                <br><br>
-                <strong>\[ F_x = F \cdot \cos(\theta) \]</strong><br>
-                <strong>\[ F_y = F \cdot \sin(\theta) \]</strong>
-                <br><br>
-                Onde \( F \) é a magnitude da força e \( \theta \) é o ângulo em relação ao eixo horizontal.
-            </p>        
+        <p>
+            A decomposição de forças é uma técnica fundamental na análise de sistemas mecânicos e estruturas. Ela envolve a quebra de uma força vetorial em componentes que atuam ao longo de direções específicas, facilitando a análise e o cálculo das forças envolvidas em sistemas complexos.
+        </p>
+        <p>
+            Se uma força \( \vec{F} \) forma um ângulo \( \theta \) com o eixo horizontal, podemos decompor \( \vec{F} \) em duas componentes, uma na direção horizontal (x) e outra na direção vertical (y). A decomposição é dada por:
+        </p>
+        <p>
+            \[
+            F_x = F \cdot \cos(\theta)
+            \]
+        </p>
+        <p>
+            \[
+            F_y = F \cdot \sin(\theta)
+            \]
+        </p>
         <p>Insira a força e o ângulo para calcular as componentes x e y.</p>
 
         <form id="decomposicaoForcaForm">
@@ -107,15 +111,43 @@
             const forca = parseFloat(document.getElementById('forca').value);
             const angulo = parseFloat(document.getElementById('angulo').value);
 
+            if (isNaN(forca) || isNaN(angulo)) {
+                document.getElementById('resultado').innerHTML = `<p>Por favor, insira valores válidos para a força e o ângulo.</p>`;
+                return;
+            }
+
+            // Converter ângulo para radianos
             const anguloRad = angulo * (Math.PI / 180);
             const componenteX = forca * Math.cos(anguloRad);
             const componenteY = forca * Math.sin(anguloRad);
 
+            // Exibir passo a passo dos cálculos
             document.getElementById('resultado').innerHTML = `
                 <h2>Resultado:</h2>
-                <p>Componente X: ${componenteX.toFixed(2)} N</p>
-                <p>Componente Y: ${componenteY.toFixed(2)} N</p>
+                <p><b>Força dada:</b> \\( F = ${forca} \\text{ N} \\)</p>
+                <p><b>Ângulo dado:</b> \\( \\theta = ${angulo}° \\)</p>
+
+                <p><b>Conversão do Ângulo para Radianos:</b></p>
+                \\[
+                \\theta_{rad} = \\frac{\\pi}{180} \\times ${angulo} = ${anguloRad.toFixed(4)} \\text{ rad}
+                \\]
+
+                <p><b>Cálculo da Componente Horizontal (\\( F_x \\)):</b></p>
+                \\[
+                F_x = F \\cdot \\cos(\\theta) = ${forca} \\cdot \\cos(${anguloRad.toFixed(4)}) = ${componenteX.toFixed(4)} \\text{ N}
+                \\]
+
+                <p><b>Cálculo da Componente Vertical (\\( F_y \\)):</b></p>
+                \\[
+                F_y = F \\cdot \\sin(\\theta) = ${forca} \\cdot \\sin(${anguloRad.toFixed(4)}) = ${componenteY.toFixed(4)} \\text{ N}
+                \\]
+
+                <p><b>Componentes da Força:</b></p>
+                <p>Componente Horizontal (\\( F_x \\)): ${componenteX.toFixed(2)} N</p>
+                <p>Componente Vertical (\\( F_y \\)): ${componenteY.toFixed(2)} N</p>
             `;
+
+            MathJax.typeset();  // Atualiza o MathJax para renderizar as equações
         }
     </script>
 </body>

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cálculo do Momento de Inércia - Círculo Vazado</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
@@ -67,7 +66,7 @@
         button:hover {
             background-color: #0056b3;
         }
-        #resultHooke {
+        #resultSection {
             margin-top: 20px;
             background-color: #e9f7f9;
             padding: 15px;
@@ -78,53 +77,64 @@
 </head>
 <body>
     <h1>Momento de Inércia - Círculo Vazado (Anel)</h1>
-    <div class="content-container">
+    <div class="container">
         <div class="explanation">
             <p>
-                Para um círculo vazado (ou anel), o momento de inércia também é calculado para um eixo perpendicular ao plano e passando pelo centro. Se considerarmos um anel de massa <span class="math">\( M \)</span> e raio <span class="math">\( R \)</span>, sua fórmula é:
+                Um círculo vazado (ou anel) é um corpo que possui uma massa distribuída ao longo de uma circunferência com um buraco central. O momento de inércia de um círculo vazado é importante para analisar discos ocos ou anéis rotacionais.
             </p>
             <p>
-                <span class="math">\( I = M R^2 \)</span>
+            <p>
+                Para um círculo vazado (ou anel), o momento de inércia em relação a um eixo perpendicular ao plano e passando pelo centro é dado por:
             </p>
             <p>
-                <strong>Derivação Intuitiva:</strong> No caso do anel, toda a massa está localizada a uma distância constante <span class="math">\( R \)</span> do eixo de rotação. Portanto, o momento de inércia é simplesmente a massa vezes o quadrado da distância ao eixo, que é <span class="math">\( R^2 \)</span>.
-            </p>
-            <h2>Cálculo da Incerteza Associada</h2>
-            <p>
-                Para calcular a incerteza associada ao momento de inércia, precisamos considerar as incertezas nas medições das quantidades que entram nas fórmulas (massa e raio).
-            </p>
-
-            <h3>Incerteza do Anel</h3>
-            <p>
-                Para o anel, a fórmula do momento de inércia é <span class="math">\( I = M R^2 \)</span>. Usando a mesma abordagem, temos:
-            </p>
-            <p>
-                <span class="math">\( \Delta I = \sqrt{\left( \frac{\partial I}{\partial M} \Delta M \right)^2 + \left( \frac{\partial I}{\partial R} \Delta R \right)^2 } \)</span>
+                \[
+                I = \frac{1}{2} m (r_2^2 - r_1^2)
+                \]
             </p>
             <p>Onde:</p>
             <ul>
-                <li><span class="math">\( \frac{\partial I}{\partial M} = R^2 \)</span></li>
-                <li><span class="math">\( \frac{\partial I}{\partial R} = 2 M R \)</span></li>
+                <li>\( m \) é a massa do anel.</li>
+                <li>\( r_1 \) é o raio interno.</li>
+                <li>\( r_2 \) é o raio externo.</li>
             </ul>
+            <h3>Cálculo da Incerteza</h3>
             <p>
-                Portanto:
+                A incerteza no momento de inércia pode ser calculada usando a fórmula:
             </p>
             <p>
-                <span class="math">\( \Delta I = \sqrt{\left( R^2 \Delta M \right)^2 + \left( 2 M R \Delta R \right)^2 } \)</span>
+                \[
+                \Delta I = I \cdot \sqrt{\left( \frac{\Delta m}{m} \right)^2 + \left( 2 \cdot \frac{\Delta r_2}{r_2} \right)^2 + \left( 2 \cdot \frac{\Delta r_1}{r_1} \right)^2 }
+                \]
             </p>
+            <p>Onde:</p>
+            <ul>
+                <li>\( \Delta m \) é a incerteza na massa.</li>
+                <li>\( \Delta r_1 \) e \( \Delta r_2 \) são as incertezas nos raios interno e externo, respectivamente.</li>
+            </ul>
         </div>
-        <form id="calculationForm" action="/calculate" method="post">
-            <label for="mass">Massa (m):</label>
+
+        <form id="calculationForm">
+            <label for="mass">Massa (g):</label>
             <input type="number" id="mass" name="mass" required>
 
-            <label for="innerRadius">Raio Interno (r₁):</label>
+            <label for="innerRadius">Raio Interno (r₁) (cm):</label>
             <input type="number" id="innerRadius" name="innerRadius" required>
 
-            <label for="outerRadius">Raio Externo (r₂):</label>
+            <label for="outerRadius">Raio Externo (r₂) (cm):</label>
             <input type="number" id="outerRadius" name="outerRadius" required>
+
+            <label for="deltaMass">Incerteza da Massa (g):</label>
+            <input type="number" id="deltaMass" name="deltaMass" required>
+
+            <label for="deltaInnerRadius">Incerteza do Raio Interno (cm):</label>
+            <input type="number" step="0.001" id="deltaInnerRadius" name="deltaInnerRadius" required>
+
+            <label for="deltaOuterRadius">Incerteza do Raio Externo (cm):</label>
+            <input type="number" step="0.001" id="deltaOuterRadius" name="deltaOuterRadius" required>
 
             <button type="submit">Calcular Momento de Inércia</button>
         </form>
+
         <div id="resultSection" style="display:none;">
             <h2>Resultado dos Cálculos</h2>
             <div id="equations"></div>
@@ -135,24 +145,52 @@
     <script>
         document.getElementById('calculationForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            const mass = parseFloat(document.getElementById('mass').value);
-            const innerRadius = parseFloat(document.getElementById('innerRadius').value);
-            const outerRadius = parseFloat(document.getElementById('outerRadius').value);
 
-            const momentOfInertia = (1/2) * mass * (Math.pow(innerRadius, 2) + Math.pow(outerRadius, 2));
+            // Obtendo os valores de massa, raios e incertezas
+            const mass_g = parseFloat(document.getElementById('mass').value);
+            const innerRadius_cm = parseFloat(document.getElementById('innerRadius').value);
+            const outerRadius_cm = parseFloat(document.getElementById('outerRadius').value);
+            const deltaMass_g = parseFloat(document.getElementById('deltaMass').value);
+            const deltaInnerRadius_cm = parseFloat(document.getElementById('deltaInnerRadius').value);
+            const deltaOuterRadius_cm = parseFloat(document.getElementById('deltaOuterRadius').value);
 
+            // Convertendo de g para kg e de cm para m
+            const mass_kg = mass_g / 1000;
+            const innerRadius_m = innerRadius_cm / 100;
+            const outerRadius_m = outerRadius_cm / 100;
+            const deltaMass_kg = deltaMass_g / 1000;
+            const deltaInnerRadius_m = deltaInnerRadius_cm / 100;
+            const deltaOuterRadius_m = deltaOuterRadius_cm / 100;
+
+            // Cálculo do momento de inércia
+            const I = (1 / 2) * mass_kg * (Math.pow(outerRadius_m, 2) - Math.pow(innerRadius_m, 2));
+
+            // Cálculo da incerteza no momento de inércia
+            const delta_I = I * Math.sqrt(
+                Math.pow(deltaMass_kg / mass_kg, 2) +
+                Math.pow(2 * deltaOuterRadius_m / outerRadius_m, 2) +
+                Math.pow(2 * deltaInnerRadius_m / innerRadius_m, 2)
+            );
+
+            // Exibição dos cálculos detalhados
             document.getElementById('equations').innerHTML = `
                 <p>Fórmula utilizada:</p>
-                <p>I = (1/2) * m * (r₁² + r₂²)</p>
-                <p>Substituindo os valores:</p>
-                <p>I = (1/2) * ${mass} * (${innerRadius}² + ${outerRadius}²)</p>
+                <p>\\[ I = \\frac{1}{2} M (r_2^2 - r_1^2) \\]</p>
+                <p><strong>Substituindo os valores:</strong></p>
+                <p>\\[ I = \\frac{1}{2} \\cdot ${mass_kg.toFixed(4)} \\cdot (${outerRadius_m.toFixed(4)}^2 - ${innerRadius_m.toFixed(4)}^2) = ${I.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
+
+                <p><strong>Incerteza no Momento de Inércia:</strong></p>
+                <p>\\[ \\Delta I = I \\cdot \\sqrt{ \\left( \\frac{\\Delta m}{m} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta r_2}{r_2} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta r_1}{r_1} \\right)^2 } \\]</p>
+                <p>\\[ \\Delta I = ${I.toFixed(4)} \\cdot \\sqrt{ \\left( \\frac{${deltaMass_kg.toFixed(4)}}{${mass_kg.toFixed(4)}} \\right)^2 + \\left( 2 \\cdot \\frac{${deltaOuterRadius_m.toFixed(4)}}{${outerRadius_m.toFixed(4)}} \\right)^2 + \\left( 2 \\cdot \\frac{${deltaInnerRadius_m.toFixed(4)}}{${innerRadius_m.toFixed(4)}} \\right)^2 } \\]</p>
             `;
 
             document.getElementById('finalResult').innerHTML = `
-                <p>Momento de Inércia (I): ${momentOfInertia.toFixed(2)} kg·m²</p>
+                <p><strong>Resultado Final:</strong></p>
+                <p>\\[ I = ${I.toFixed(4)} \\pm ${delta_I.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
             `;
 
             document.getElementById('resultSection').style.display = 'block';
+            MathJax.typeset(); // Atualiza o MathJax para renderizar as equações
         });
     </script>
 </body>
