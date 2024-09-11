@@ -56,7 +56,7 @@
         }
         button {
             padding: 10px;
-            background-color: #007BFF;
+            background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 4px;
@@ -64,14 +64,14 @@
             font-size: 16px;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #45a049;
         }
         #resultSection {
             margin-top: 20px;
             background-color: #e9f7f9;
             padding: 15px;
             border-radius: 5px;
-            border: 1px solid #007BFF;
+            border: 1px solid #48bd57;
         }
     </style>
 </head>
@@ -79,48 +79,162 @@
     <h1>Momento de Inércia - Paralelepípedo</h1>
     <div class="container">
         <div class="explanation">
-            <p>
-                O momento de inércia de um paralelepípedo é calculado em relação aos eixos \(x\), \(y\), e \(z\). As fórmulas são:
-            </p>
-            <p>\( I_x = \frac{1}{12} M (b^2 + c^2) \)</p>
-            <p>\( I_y = \frac{1}{12} M (a^2 + c^2) \)</p>
-            <p>\( I_z = \frac{1}{12} M (a^2 + b^2) \)</p>
+            <h2>O que é o Momento de Inércia de um Paralelepípedo?</h2>
+            <p>O momento de inércia é uma medida da distribuição da massa de um objeto em relação a um eixo de rotação. Para um paralelepípedo, que é um sólido com faces retangulares, o cálculo do momento de inércia depende das dimensões do sólido e do eixo em torno do qual ele gira.</p>
+            <h3>Definição e Fórmula</h3>
+            <p>Considere um paralelepípedo com dimensões \( a \), \( b \) e \( c \) ao longo dos eixos \( x \), \( y \) e \( z \), respectivamente. Suponha que a massa total do paralelepípedo seja \( M \). O momento de inércia pode ser calculado para diferentes eixos.</p>
+            <p><strong>Eixo \( x \)</strong>: O momento de inércia \( I_x \) é dado por:</p>
+            <p>\[
+               I_x = \frac{1}{12} M (b^2 + c^2)
+            \]</p>
+            <p><strong>Eixo \( y \)</strong>: O momento de inércia \( I_y \) é dado por:</p>
+            <p>\[
+               I_y = \frac{1}{12} M (a^2 + c^2)
+            \]</p>
+            <p><strong>Eixo \( z \)</strong>: O momento de inércia \( I_z \) é dado por:</p>
+            <p>\[
+               I_z = \frac{1}{12} M (a^2 + b^2)
+            \]</p>
+            <p>Essas fórmulas assumem que o paralelepípedo é homogêneo, ou seja, sua massa está uniformemente distribuída.</p>
+           
+            <h3>Cálculo da Incerteza</h3>
+    <p>
+        O momento de inércia \( I \) depende dos quadrados das dimensões e da massa. Quando calculamos a incerteza de \( I \), aplicamos a fórmula de propagação de incertezas:
+    </p>
+    \[
+        \Delta I = I \cdot \sqrt{\left(\frac{\Delta m}{m}\right)^2 + \left(2 \cdot \frac{\Delta a}{a}\right)^2 + \left(2 \cdot \frac{\Delta b}{b}\right)^2 + \left(2 \cdot \frac{\Delta c}{c}\right)^2}
+        \]
+    </p>
+    <p><strong>1. Impacto das Dimensões na Incerteza</strong></p>
 
-            <h2>Cálculo da Incerteza</h2>
-            <p>
-                A incerteza em cada momento de inércia é calculada usando a seguinte fórmula de propagação de incertezas:
-            </p>
-            <p>
-                \[
-                \Delta I = I \cdot \sqrt{\left( \frac{\Delta M}{M} \right)^2 + \left( 2 \cdot \frac{\Delta a}{a} \right)^2 + \left( 2 \cdot \frac{\Delta b}{b} \right)^2 + \left( 2 \cdot \frac{\Delta c}{c} \right)^2}
-                \]
-            </p>
+    <p>
+        Vamos analisar como as incertezas afetam o momento de inércia:
+    </p>
+
+    <h4>Eixo \( a \) (Momento de Inércia \( I_x \)):</h4>
+    <p>
+        O momento de inércia em torno do eixo \( x \) é dado por:
+    </p>
+</p>
+    \[
+    I_a = \frac{1}{12} m (b^2 + c^2)
+    \]
+</p>
+<p>
+    A incerteza no momento de inércia \( I_a \) depende das incertezas em \( b \) e \( c \). A fórmula para a incerteza é:
+</p>
+    \[
+    \Delta I_a = I_a \cdot \sqrt{\left(2 \cdot \frac{\Delta b}{b}\right)^2 + \left(2 \cdot \frac{\Delta c}{c}\right)^2}
+    \]
+</p>
+
+<h4>Eixo \( b \) (Momento de Inércia \( I_b \)):</h4>
+<p>
+    O momento de inércia em torno do eixo \( b \) é dado por:
+</p>
+
+    \[
+    I_b = \frac{1}{12} m (a^2 + c^2)
+    \]
+</p>
+<p>
+    A incerteza no momento de inércia \( I_b \) depende das incertezas em \( a \) e \( c \). A fórmula para a incerteza é:
+</p>
+
+    \[
+    \Delta I_b = I_b \cdot \sqrt{\left(2 \cdot \frac{\Delta a}{a}\right)^2 + \left(2 \cdot \frac{\Delta c}{c}\right)^2}
+    \]
+</p>
+
+<h4>Eixo \( c \) (Momento de Inércia \( I_c \)):</h4>
+<p>
+    O momento de inércia em torno do eixo \( c \) é dado por:
+</p>
+
+    \[
+    I_c = \frac{1}{12} m (a^2 + b^2)
+    \]
+</p>
+<p>
+    A incerteza no momento de inércia \( I_c \) depende das incertezas em \( a \) e \( b \). A fórmula para a incerteza é:
+</p>
+
+    \[
+    \Delta I_c = I_c \cdot \sqrt{\left(2 \cdot \frac{\Delta a}{a}\right)^2 + \left(2 \cdot \frac{\Delta b}{b}\right)^2}
+    \]
+</p>
+<p><strong>2. Por Que as Incertezas São Diferentes</strong></p>
+
+<p>
+    Para \( I_a \): A incerteza no \( I_a \) depende das dimensões \( b \) e \( c \). Se a incerteza relativa em \( b \) e \( c \) é maior ou menor comparada com as incertezas relativas em \( a \) e \( b \) (para \( I_b \) e \( I_c \)), o impacto na incerteza de \( I_a \) será diferente.
+</p>
+<p>
+    Para \( I_b \): A incerteza no \( I_b \) é influenciada pela incerteza em \( a \) e \( c \). Se a incerteza relativa em \( a \) e \( c \) é diferente das incertezas relativas em \( b \) e \( c \) (para \( I_a \) e \( I_c \)), isso causará uma diferença na incerteza final.
+</p>
+<p>
+    Para \( I_c \): A incerteza no \( I_c \) é afetada pela incerteza em \( a \) e \( b \). As incertezas relativas em \( a \) e \( b \) impactarão o resultado de forma diferente comparado às incertezas relativas em \( b \) e \( c \) (para \( I_a \) e \( I_b \)).
+</p>
+        
+<h3>Momento de Inércia Total</h3>
+<p>
+    Para obter o momento de inércia total do sólido, você pode usar a soma dos momentos de inércia em relação aos três eixos:
+</p>
+    \[
+    I_{\text{total}} = I_a + I_b + I_c
+    \]
+</p>
+
+<h3>Cálculo da Incerteza do Momento de Inércia Total</h3>
+<p>
+    A incerteza total do momento de inércia é calculada propagando as incertezas associadas à massa e às dimensões do paralelepípedo. Para isso, usamos a fórmula de propagação de incertezas:
+</p>
+
+    \[
+    \Delta I_{\text{total}} = \sqrt{\left(\frac{\partial I_{\text{total}}}{\partial m} \cdot \Delta m\right)^2 + \left(\frac{\partial I_{\text{total}}}{\partial a} \cdot \Delta a\right)^2 + \left(\frac{\partial I_{\text{total}}}{\partial b} \cdot \Delta b\right)^2 + \left(\frac{\partial I_{\text{total}}}{\partial c} \cdot \Delta c\right)^2}
+    \]
+</p>
+
+<h3>Onde:</h3>
+<ul>
+    <li>
+        \(\frac{\partial I_{\text{total}}}{\partial m}\) é a derivada de \( I_{\text{total}} \) com relação à massa
+    </li>
+    <li>
+        \(\frac{\partial I_{\text{total}}}{\partial a}\) é a derivada de \( I_{\text{total}} \) com relação ao comprimento
+    </li>
+    <li>
+        \(\frac{\partial I_{\text{total}}}{\partial b}\) é a derivada de \( I_{\text{total}} \) com relação à largura
+    </li>
+    <li>
+        \(\frac{\partial I_{\text{total}}}{\partial c}\) é a derivada de \( I_{\text{total}} \) com relação à altura
+    </li>
+</ul>
         </div>
 
         <form id="calculationForm">
             <label for="mass">Massa (g):</label>
             <input type="number" id="mass" name="mass" required>
 
-            <label for="length">Comprimento (a) (cm):</label>
+            <label for="length">Comprimento \(a\) (cm):</label>
             <input type="number" id="length" name="length" required>
 
-            <label for="width">Largura (b) (cm):</label>
+            <label for="width">Largura \(b\) (cm):</label>
             <input type="number" id="width" name="width" required>
 
-            <label for="height">Altura (c) (cm):</label>
+            <label for="height">Altura \(c\) (cm):</label>
             <input type="number" id="height" name="height" required>
 
             <label for="deltaMass">Incerteza da Massa (g):</label>
             <input type="number" id="deltaMass" name="deltaMass" required>
 
-            <label for="deltaLength">Incerteza no Comprimento (cm):</label>
-            <input type="number" step="0.001" id="deltaLength" name="deltaLength" required>
+            <label for="deltaLength">Incerteza do Comprimento \(a\) (cm):</label>
+            <input type="number" id="deltaLength" name="deltaLength" required>
 
-            <label for="deltaWidth">Incerteza na Largura (cm):</label>
-            <input type="number" step="0.001" id="deltaWidth" name="deltaWidth" required>
+            <label for="deltaWidth">Incerteza da Largura \(b\) (cm):</label>
+            <input type="number" id="deltaWidth" name="deltaWidth" required>
 
-            <label for="deltaHeight">Incerteza na Altura (cm):</label>
-            <input type="number" step="0.001" id="deltaHeight" name="deltaHeight" required>
+            <label for="deltaHeight">Incerteza da Altura \(c\) (cm):</label>
+            <input type="number" id="deltaHeight" name="deltaHeight" required>
 
             <button type="submit">Calcular Momento de Inércia</button>
         </form>
@@ -145,7 +259,6 @@
             const deltaWidth_cm = parseFloat(document.getElementById('deltaWidth').value);
             const deltaHeight_cm = parseFloat(document.getElementById('deltaHeight').value);
 
-            // Convertendo para SI (kg e m)
             const mass_kg = mass_g / 1000;
             const length_m = length_cm / 100;
             const width_m = width_cm / 100;
@@ -155,65 +268,55 @@
             const deltaWidth_m = deltaWidth_cm / 100;
             const deltaHeight_m = deltaHeight_cm / 100;
 
-            // Cálculo do momento de inércia para os eixos
             const I_x = (1 / 12) * mass_kg * (Math.pow(width_m, 2) + Math.pow(height_m, 2));
             const I_y = (1 / 12) * mass_kg * (Math.pow(length_m, 2) + Math.pow(height_m, 2));
             const I_z = (1 / 12) * mass_kg * (Math.pow(length_m, 2) + Math.pow(width_m, 2));
 
-            // Cálculo das incertezas no momento de inércia
-            const delta_I_x = I_x * Math.sqrt(
-                Math.pow(deltaMass_kg / mass_kg, 2) +
-                Math.pow(2 * deltaWidth_m / width_m, 2) +
-                Math.pow(2 * deltaHeight_m / height_m, 2)
+            const I_total = I_x + I_y + I_z;
+
+            const delta_I_x = I_x * Math.sqrt(Math.pow(deltaMass_kg / mass_kg, 2) + Math.pow(2 * deltaWidth_m / width_m, 2) + Math.pow(2 * deltaHeight_m / height_m, 2));
+            const delta_I_y = I_y * Math.sqrt(Math.pow(deltaMass_kg / mass_kg, 2) + Math.pow(2 * deltaLength_m / length_m, 2) + Math.pow(2 * deltaHeight_m / height_m, 2));
+            const delta_I_z = I_z * Math.sqrt(Math.pow(deltaMass_kg / mass_kg, 2) + Math.pow(2 * deltaLength_m / length_m, 2) + Math.pow(2 * deltaWidth_m / width_m, 2));
+
+            const delta_I_total = Math.sqrt(
+                Math.pow(delta_I_x, 2) +
+                Math.pow(delta_I_y, 2) +
+                Math.pow(delta_I_z, 2)
             );
 
-            const delta_I_y = I_y * Math.sqrt(
-                Math.pow(deltaMass_kg / mass_kg, 2) +
-                Math.pow(2 * deltaLength_m / length_m, 2) +
-                Math.pow(2 * deltaHeight_m / height_m, 2)
-            );
-
-            const delta_I_z = I_z * Math.sqrt(
-                Math.pow(deltaMass_kg / mass_kg, 2) +
-                Math.pow(2 * deltaLength_m / length_m, 2) +
-                Math.pow(2 * deltaWidth_m / width_m, 2)
-            );
-
-            // Exibição dos cálculos detalhados para todos os eixos
             document.getElementById('equations').innerHTML = `
-                <p><strong>Conversão de Unidades:</strong></p>
-                <p>\\[ \\text{Massa: } ${mass_g} \\text{ g} = ${mass_kg.toFixed(4)} \\text{ kg} \\]</p>
-                <p>\\[ \\text{Comprimento: } ${length_cm} \\text{ cm} = ${length_m.toFixed(4)} \\text{ m} \\]</p>
-                <p>\\[ \\text{Largura: } ${width_cm} \\text{ cm} = ${width_m.toFixed(4)} \\text{ m} \\]</p>
-                <p>\\[ \\text{Altura: } ${height_cm} \\text{ cm} = ${height_m.toFixed(4)} \\text{ m} \\]</p>
+    <p><strong>Cálculo do Momento de Inércia:</strong></p>
 
-                <p><strong>Cálculo do Momento de Inércia:</strong></p>
-                <p>\\[ I_x = \\frac{1}{12} M (b^2 + c^2) \\]</p>
-                <p>Substituindo os valores:</p>
-                <p>\\[ I_x = \\frac{1}{12} \\cdot ${mass_kg.toFixed(4)} \\cdot (${width_m.toFixed(4)}^2 + ${height_m.toFixed(4)}^2) = ${I_x.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
+    <p>\\[ I_x = \\frac{1}{12} M (b^2 + c^2) \\]</p>
+    <p>Substituindo os valores:</p>
+    <p>\\[ I_x = \\frac{1}{12} \\cdot ${mass_kg.toFixed(4)} \\cdot (${width_m.toFixed(4)}^2 + ${height_m.toFixed(4)}^2) = ${I_x.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
 
-                <p>\\[ I_y = \\frac{1}{12} M (a^2 + c^2) \\]</p>
-                <p>Substituindo os valores:</p>
-                <p>\\[ I_y = \\frac{1}{12} \\cdot ${mass_kg.toFixed(4)} \\cdot (${length_m.toFixed(4)}^2 + ${height_m.toFixed(4)}^2) = ${I_y.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
+    <p>\\[ I_y = \\frac{1}{12} M (a^2 + c^2) \\]</p>
+    <p>Substituindo os valores:</p>
+    <p>\\[ I_y = \\frac{1}{12} \\cdot ${mass_kg.toFixed(4)} \\cdot (${length_m.toFixed(4)}^2 + ${height_m.toFixed(4)}^2) = ${I_y.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
 
-                <p>\\[ I_z = \\frac{1}{12} M (a^2 + b^2) \\]</p>
-                <p>Substituindo os valores:</p>
-                <p>\\[ I_z = \\frac{1}{12} \\cdot ${mass_kg.toFixed(4)} \\cdot (${length_m.toFixed(4)}^2 + ${width_m.toFixed(4)}^2) = ${I_z.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
+    <p>\\[ I_z = \\frac{1}{12} M (a^2 + b^2) \\]</p>
+    <p>Substituindo os valores:</p>
+    <p>\\[ I_z = \\frac{1}{12} \\cdot ${mass_kg.toFixed(4)} \\cdot (${length_m.toFixed(4)}^2 + ${width_m.toFixed(4)}^2) = ${I_z.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
 
-                <p><strong>Cálculo da Incerteza no Momento de Inércia:</strong></p>
-                <p>\\[ \\Delta I_x = I_x \\cdot \\sqrt{ \\left( \\frac{\\Delta M}{M} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta b}{b} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta c}{c} \\right)^2 } \\]</p>
-                <p>\\[ \\Delta I_y = I_y \\cdot \\sqrt{ \\left( \\frac{\\Delta M}{M} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta a}{a} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta c}{c} \\right)^2 } \\]</p>
-                <p>\\[ \\Delta I_z = I_z \\cdot \\sqrt{ \\left( \\frac{\\Delta M}{M} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta a}{a} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta b}{b} \\right)^2 } \\]</p>
-            `;
+    <p><strong>Cálculo da Incerteza no Momento de Inércia:</strong></p>
+    <p>\\[ \\Delta I_x = ${delta_I_x.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
+    <p>\\[ \\Delta I_y = ${delta_I_y.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
+    <p>\\[ \\Delta I_z = ${delta_I_z.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
+
+    <p><strong>Momento de Inércia Total:</strong> \\( I_{total} = ${I_total.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\)</p>
+    <p><strong>Incerteza no Momento de Inércia Total:</strong> \\( \\Delta I_{total} = ${delta_I_total.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\)</p>
+`;
 
             document.getElementById('finalResult').innerHTML = `
-                <p><strong>Momento de Inércia ao longo do eixo x:</strong> ${I_x.toFixed(4)} \\pm ${delta_I_x.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2</p>
-                <p><strong>Momento de Inércia ao longo do eixo y:</strong> ${I_y.toFixed(4)} \\pm ${delta_I_y.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2</p>
-                <p><strong>Momento de Inércia ao longo do eixo z:</strong> ${I_z.toFixed(4)} \\pm ${delta_I_z.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2</p>
+                <p><strong>Momento de Inércia ao longo do eixo x:</strong> \\( I_x = ${I_x.toFixed(4)} \\pm ${delta_I_x.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\)</p>
+                <p><strong>Momento de Inércia ao longo do eixo y:</strong> \\( I_y = ${I_y.toFixed(4)} \\pm ${delta_I_y.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\)</p>
+                <p><strong>Momento de Inércia ao longo do eixo z:</strong> \\( I_z = ${I_z.toFixed(4)} \\pm ${delta_I_z.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\)</p>
+                <p><strong>Momento de Inércia Total:</strong> \\( I_{total} = ${I_total.toFixed(4)} \\pm ${delta_I_total.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\)</p>
             `;
-
+            
             document.getElementById('resultSection').style.display = 'block';
-            MathJax.typeset(); // Atualiza o MathJax para renderizar as equações
+            MathJax.typeset();
         });
     </script>
 </body>
