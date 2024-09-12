@@ -29,7 +29,6 @@ def circulo():
 def circulo_vazado():
     return render_template('circulo_vazado.html')
 
-# Rota para a página da Lei de Hooke
 @app.route('/lei_de_hooke')
 def lei_de_hooke():
     return render_template('lei_de_hooke.html')

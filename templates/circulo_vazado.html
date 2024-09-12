@@ -115,16 +115,16 @@
 
         <form id="calculationForm">
             <label for="mass">Massa (g):</label>
-            <input type="number" id="mass" name="mass" required>
+            <input type="number" id="mass" name="mass" step="0.001" required>
 
             <label for="innerRadius">Raio Interno (r₁) (cm):</label>
-            <input type="number" id="innerRadius" name="innerRadius" required>
+            <input type="number" id="innerRadius" name="innerRadius" step="0.001" required>
 
             <label for="outerRadius">Raio Externo (r₂) (cm):</label>
-            <input type="number" id="outerRadius" name="outerRadius" required>
+            <input type="number" id="outerRadius" name="outerRadius" step="0.001" required>
 
             <label for="deltaMass">Incerteza da Massa (g):</label>
-            <input type="number" id="deltaMass" name="deltaMass" required>
+            <input type="number" id="deltaMass" name="deltaMass" step="0.001" required>
 
             <label for="deltaInnerRadius">Incerteza do Raio Interno (cm):</label>
             <input type="number" step="0.001" id="deltaInnerRadius" name="deltaInnerRadius" required>
@@ -172,21 +172,26 @@
                 Math.pow(2 * deltaInnerRadius_m / innerRadius_m, 2)
             );
 
+            // Função para exibir o número em notação científica se ele for muito pequeno
+            function formatNumber(num) {
+                return (num < 0.001 || num > 1000) ? num.toExponential(4) : num.toFixed(4);
+            }
+
             // Exibição dos cálculos detalhados
             document.getElementById('equations').innerHTML = `
                 <p>Fórmula utilizada:</p>
                 <p>\\[ I = \\frac{1}{2} M (r_2^2 - r_1^2) \\]</p>
                 <p><strong>Substituindo os valores:</strong></p>
-                <p>\\[ I = \\frac{1}{2} \\cdot ${mass_kg.toFixed(4)} \\cdot (${outerRadius_m.toFixed(4)}^2 - ${innerRadius_m.toFixed(4)}^2) = ${I.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
+                <p>\\[ I = \\frac{1}{2} \\cdot ${formatNumber(mass_kg)} \\cdot (${formatNumber(outerRadius_m)}^2 - ${formatNumber(innerRadius_m)}^2) = ${formatNumber(I)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
 
                 <p><strong>Incerteza no Momento de Inércia:</strong></p>
                 <p>\\[ \\Delta I = I \\cdot \\sqrt{ \\left( \\frac{\\Delta m}{m} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta r_2}{r_2} \\right)^2 + \\left( 2 \\cdot \\frac{\\Delta r_1}{r_1} \\right)^2 } \\]</p>
-                <p>\\[ \\Delta I = ${I.toFixed(4)} \\cdot \\sqrt{ \\left( \\frac{${deltaMass_kg.toFixed(4)}}{${mass_kg.toFixed(4)}} \\right)^2 + \\left( 2 \\cdot \\frac{${deltaOuterRadius_m.toFixed(4)}}{${outerRadius_m.toFixed(4)}} \\right)^2 + \\left( 2 \\cdot \\frac{${deltaInnerRadius_m.toFixed(4)}}{${innerRadius_m.toFixed(4)}} \\right)^2 } \\]</p>
+                <p>\\[ \\Delta I = ${formatNumber(I)} \\cdot \\sqrt{ \\left( \\frac{${formatNumber(deltaMass_kg)}}{${formatNumber(mass_kg)}} \\right)^2 + \\left( 2 \\cdot \\frac{${formatNumber(deltaOuterRadius_m)}}{${formatNumber(outerRadius_m)}} \\right)^2 + \\left( 2 \\cdot \\frac{${formatNumber(deltaInnerRadius_m)}}{${formatNumber(innerRadius_m)}} \\right)^2 } \\]</p>
             `;
 
             document.getElementById('finalResult').innerHTML = `
                 <p><strong>Resultado Final:</strong></p>
-                <p>\\[ I = ${I.toFixed(4)} \\pm ${delta_I.toFixed(4)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
+                <p>\\[ I = ${formatNumber(I)} \\pm ${formatNumber(delta_I)} \\text{ kg} \\cdot \\text{m}^2 \\]</p>
             `;
 
             document.getElementById('resultSection').style.display = 'block';

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,6 +19,7 @@
             flex-direction: column;
             min-height: 100vh;
         }
+
         .container {
             background-color: #fff;
             padding: 20px;
@@ -26,34 +28,47 @@
             max-width: 800px;
             width: 100%;
         }
-        h1, h2, h3 {
+
+        h1,
+        h2,
+        h3 {
             text-align: center;
             color: #333;
         }
-        p, ul, label {
+
+        p,
+        ul,
+        label {
             font-size: 16px;
             color: #555;
         }
+
         ul {
             margin: 10px 0;
             padding-left: 20px;
         }
+
         li {
             margin-bottom: 5px;
         }
+
         form {
             display: flex;
             flex-direction: column;
             margin-top: 20px;
         }
-        label, input {
+
+        label,
+        input {
             margin-bottom: 10px;
         }
+
         input {
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+
         button {
             padding: 10px;
             background-color: #4CAF50;
@@ -63,9 +78,11 @@
             cursor: pointer;
             font-size: 16px;
         }
+
         button:hover {
             background-color: #45a049;
         }
+
         #resultSection {
             margin-top: 20px;
             background-color: #e9f7f9;
@@ -75,17 +92,22 @@
         }
     </style>
 </head>
+
 <body>
     <h1>Momento de Inércia - Cubo</h1>
     <div class="container">
         <div class="explanation">
             <p>
-                O momento de inércia é uma medida da distribuição da massa de um objeto em relação a um eixo de rotação. Para um cubo, que é um caso especial de paralelepípedo onde todas as arestas possuem o mesmo comprimento, o momento de inércia pode ser calculado em relação aos três eixos principais que passam pelo seu centro de massa.            </p>
+                O momento de inércia é uma medida da distribuição da massa de um objeto em relação a um eixo de rotação.
+                Para um cubo, que é um caso especial de paralelepípedo onde todas as arestas possuem o mesmo
+                comprimento, o momento de inércia pode ser calculado em relação aos três eixos principais que passam
+                pelo seu centro de massa. </p>
             <p>
-                <p>
-                    Considerando um cubo com aresta \( a \) e massa \( M \), o momento de inércia em relação aos eixos \( x \), \( y \) e \( z \) pode ser calculado pelas seguintes fórmulas:
-                
-                    <p>Fórmulas utilizadas:</p>
+            <p>
+                Considerando um cubo com aresta \( a \) e massa \( M \), o momento de inércia em relação aos eixos \( x
+                \), \( y \) e \( z \) pode ser calculado pelas seguintes fórmulas:
+
+            <p>Fórmulas utilizadas:</p>
             <p>\( I_x = \frac{1}{12} M (a^2 + a^2) = \frac{1}{6} M a^2 \)</p>
             <p>\( I_y = \frac{1}{12} M (a^2 + a^2) = \frac{1}{6} M a^2 \)</p>
             <p>\( I_z = \frac{1}{12} M (a^2 + a^2) = \frac{1}{6} M a^2 \)</p>
@@ -98,51 +120,54 @@
             </ul>
 
 
-<p>
-            O momento de inércia \(I\) de um cubo sólido em relação a um eixo que passa pelo centro e é paralelo a uma das faces é dado por:
-        </p>
-        <p>
-            \[
-            I = \frac{1}{6} M a^2
-            \]
-        </p>
-        <h2>Cálculo da Incerteza</h2>
-    <p>
-        Suponha que a massa \( M \) e a aresta \( a \) do cubo tenham incertezas \(\Delta M\) e \(\Delta a\), respectivamente. A incerteza no momento de inércia \(\Delta I\) pode ser calculada usando a fórmula de propagação de erros:
-    </p>
-    <p>
-        \[
-        \Delta I = \sqrt{\left( \frac{\partial I}{\partial M} \cdot \Delta M \right)^2 + \left( \frac{\partial I}{\partial a} \cdot \Delta a \right)^2}
-        \]
-    </p>
-    <p>
-        Onde as derivadas parciais são:
-    </p>
-    <p>
-        \[
-        \frac{\partial I}{\partial M} = \frac{1}{6} a^2
-        \]
-    </p>
-    <p>
-        \[
-        \frac{\partial I}{\partial a} = \frac{1}{3} M a
-        \]
-    </p>
+            <p>
+                O momento de inércia \(I\) de um cubo sólido em relação a um eixo que passa pelo centro e é paralelo a
+                uma das faces é dado por:
+            </p>
+            <p>
+                \[
+                I = \frac{1}{6} M a^2
+                \]
+            </p>
+            <h2>Cálculo da Incerteza</h2>
+            <p>
+                Suponha que a massa \( M \) e a aresta \( a \) do cubo tenham incertezas \(\Delta M\) e \(\Delta a\),
+                respectivamente. A incerteza no momento de inércia \(\Delta I\) pode ser calculada usando a fórmula de
+                propagação de erros:
+            </p>
+            <p>
+                \[
+                \Delta I = \sqrt{\left( \frac{\partial I}{\partial M} \cdot \Delta M \right)^2 + \left( \frac{\partial
+                I}{\partial a} \cdot \Delta a \right)^2}
+                \]
+            </p>
+            <p>
+                Onde as derivadas parciais são:
+            </p>
+            <p>
+                \[
+                \frac{\partial I}{\partial M} = \frac{1}{6} a^2
+                \]
+            </p>
+            <p>
+                \[
+                \frac{\partial I}{\partial a} = \frac{1}{3} M a
+                \]
+            </p>
 
         </div>
-
         <form id="calculationForm">
             <label for="mass">Massa (g):</label>
-            <input type="number" id="mass" name="mass" required>
+            <input type="number" id="mass" name="mass" step="0.001" required>
 
             <label for="edgeLength">Comprimento da Aresta (a) (cm):</label>
-            <input type="number" id="edgeLength" name="edgeLength" required>
+            <input type="number" id="edgeLength" name="edgeLength" step="0.001" required>
 
             <label for="deltaMass">Incerteza da Massa (g):</label>
-            <input type="number" id="deltaMass" name="deltaMass" required>
+            <input type="number" id="deltaMass" name="deltaMass" step="0.001" required>
 
             <label for="deltaEdgeLength">Incerteza da Aresta (cm):</label>
-            <input type="number" step="0.001" id="deltaEdgeLength" name="deltaEdgeLength" required>
+            <input type="number" id="deltaEdgeLength" name="deltaEdgeLength" step="0.001" required>
 
             <button type="submit">Calcular Momento de Inércia</button>
         </form>
@@ -155,7 +180,7 @@
     </div>
 
     <script>
-        document.getElementById('calculationForm').addEventListener('submit', function(event) {
+        document.getElementById('calculationForm').addEventListener('submit', function (event) {
             event.preventDefault();
 
             // Obtendo os valores de massa, aresta e incertezas
@@ -209,4 +234,5 @@
         });
     </script>
 </body>
+
 </html>

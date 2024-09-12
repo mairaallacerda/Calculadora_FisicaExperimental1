@@ -106,19 +106,27 @@
         </ul>
         <p>OBSERVAÇÃO: assume-se que a densidade é constante e que o sólido está totalmente preenchido.</p>
 
+        <h2>Incertezas do Centro de Massa</h2>
+        <p>As incertezas no centro de massa dependem da precisão das medições do raio e da altura do cilindro. Denotamos as incertezas como \(\Delta r\) e \(\Delta h\). As incertezas no centro de massa são:</p>
+        <p>\[ \Delta x_{cm} = 0 \]</p>
+        <p>\[ \Delta y_{cm} = 0 \]</p>
+        <p>\[ \Delta z_{cm} = \frac{\Delta h}{2} \]</p>
 
         <img src="{{ url_for('static', filename='images/cilindro.jpeg') }}" alt="Imagem de um Cilindro">
 
         <form id="massForm">
             <label for="height">Altura (h) em cm:</label>
             <input type="number" id="height" name="height" step="any" required>
-            <button type="submit">Calcular Centro de Massa</button>
+            <label for="uncertaintyHeight">Incerteza da altura (Δh) em cm:</label>
+            <input type="number" id="uncertaintyHeight" name="uncertaintyHeight" step="any" required>
+            <button type="submit">Calcular Centro de Massa e Incertezas</button>
         </form>
         
         <div id="resultMass" style="display:none;">
             <h2>Resultado do Cálculo</h2>
             <div id="equationsMass"></div>
             <div id="finalResultMass"></div>
+            <div id="uncertaintyResult"></div>
         </div>
     </div>
 
@@ -126,8 +134,10 @@
         document.getElementById('massForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const height = parseFloat(document.getElementById('height').value);
+            const uncertaintyHeight = parseFloat(document.getElementById('uncertaintyHeight').value);
 
             const z_cm = height / 2;
+            const uncertaintyZ_cm = uncertaintyHeight / 2;
 
             document.getElementById('equationsMass').innerHTML = `
                 <p><b>Fórmulas:</b></p>
@@ -141,6 +151,11 @@
             document.getElementById('finalResultMass').innerHTML = `
                 <p><b>Centro de Massa:</b></p>
                 <p>x = 0 cm, y = 0 cm, z = ${z_cm.toFixed(2)} cm</p>
+            `;
+
+            document.getElementById('uncertaintyResult').innerHTML = `
+                <p><b>Incertezas:</b></p>
+                <p>Δx = 0 cm, Δy = 0 cm, Δz = ${uncertaintyZ_cm.toFixed(2)} cm</p>
             `;
 
             document.getElementById('resultMass').style.display = 'block';
